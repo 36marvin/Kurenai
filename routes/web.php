@@ -14,9 +14,18 @@ use App\Http\Controllers;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [IndexController::class, 'showIndex']);
 
-// this parameter can be accessed by "type-hint" in the controller
-Route::get('/board/{uri}', [BoardController::class, 'showIndex']);
+// if $threadId is null, use BoardService, otherwise use ThreadService
+Route::get('/{boardUri}/{threadId?}', [BoardController::class, 'handleBoard']);
+
+// only for the admin
+Route::get('/manage/global/{service?}',
+           [GlobalManagementController::class, 'serveGlobalManagementServices']);
+
+// only for the board's BO, and the admin
+Route::get('/manage/{boardUri}/{managementService?}', 
+           [BoardManagementController::class, 'serveBoardManagementServices']);
+
+// for post previews, ban-check etc.
+Route::get('/services/{service}', [PublicServicesController::class, 'returnPublicService']);
