@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\PostModel;
 
 class Post extends Controller
 {
-    function createPost (PostModel $postModel) {
-        $postModel->createPost($postTitle, $postBody);
+    function createPost (Request $request, PostModel $postModel, User $user) {
+        $userId = $request->session()->get('user_id');
+        $postModel->createPost($request->postTitle, $request->postBody, $userId, $request->threadId);
     }
 
     function updatePost ($postId, $newBody, $newTitle, PostModel $postModel) {

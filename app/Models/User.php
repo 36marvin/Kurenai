@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function getUserByToken ($token) {
+        
+    }
+
+    function getRole ($userId) {
+        
+    }
 }

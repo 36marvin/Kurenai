@@ -12,8 +12,14 @@ class PostModel extends Model
         'body',
     ];
 
-    function createPost ($postTitle, $postBody) {
+    private $userId;
 
+
+    function createPost ($postTitle, $postBody, $userId, $threadId) {
+        $this->title = $title;
+        $this->body = $body;
+        $this->userId = $userId;
+        $this-save();
     }
 
     function updatePost ($postId, $newBody, $newTitle) {
