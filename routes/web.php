@@ -14,12 +14,12 @@ use App\Http\Controllers;
 |
 */
 
-Route::get('/', [IndexController::class, 'showIndex']);
+Route::get('/', [IndexController::class, 'serverIndex']);
 
-// if $threadId is null, use BoardService, otherwise use ThreadService
-Route::get('/{boardUri}/{threadId?}', [BoardController::class, 'handleBoard']);
+Route::get('/{boardUri}', [BoardController::class, 'serverBoard']);
 
-// only for the admin
+Route::get('/{boardUri}/{threadId}', [ThreadController::class, 'serveThread']);
+
 Route::get('/manage/global/{service?}',
            [GlobalManagementController::class, 'serveGlobalManagementServices']);
 
@@ -27,5 +27,5 @@ Route::get('/manage/global/{service?}',
 Route::get('/manage/{boardUri}/{managementService?}', 
            [BoardManagementController::class, 'serveBoardManagementServices']);
 
-// for post previews, ban-check etc.
+// for post previews, ban-check, etc.
 Route::get('/services/{service}', [PublicServicesController::class, 'returnPublicService']);
