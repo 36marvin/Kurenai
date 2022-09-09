@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id()->unique();
-            $table->string('name');
-            $table->string('password');
+            $table->string('name', 20);
+            $table->string('password', 200); // the hash may be much longer than the original password 
             $table->string('badge_id'); // if any, foreign key
             $table->rememberToken();
             $table->timestamps();

@@ -28,4 +28,8 @@ Route::get('/manage/{boardUri}/{managementService?}',
            [BoardManagementController::class, 'serveBoardManagementServices']);
 
 // for post previews, ban-check, etc.
-Route::get('/services/{service}', [PublicServicesController::class, 'returnPublicService']);
+Route::get('/services/{service}', [PublicServicesController::class, 'servePublicService']);
+
+
+// pages with simple text info (faq, rules, etc). These will be stored in a database
+Route::get('/info/{uri}', [InfoPageController::class, 'serveInfoPage']);
