@@ -15,7 +15,7 @@
 <div class="box-vp box1"> 
 <div class="box1-wrapper">
   <div class="wrapper-intro">
-    <div class="site-title"><span class="lara">LARA</span><span class="chan">CHAN<span></div>
+    <div class="site-title"><span class="lara">LARA</span><span class="chan">BOARD<span></div>
     <div class="site-description">{{ $index['siteDescription'] }}</div>
   </div>
   <hr class="board-separator">
