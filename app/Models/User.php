@@ -42,11 +42,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $badgeID;
+
     function getUserByToken ($token) {
         
     }
 
     function getRole ($userId) {
-        
+
     }
 }
