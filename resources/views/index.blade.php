@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">  <!--change this dinamically -->
+<html lang="en">  
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,14 +8,13 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-<div class="mascot"></div>
 
 <div class="flex-wrapper">
 
 <div class="box-vp box1"> 
 <div class="box1-wrapper">
   <div class="wrapper-intro">
-    <div class="site-title"><span class="lara">LARA</span><span class="chan">BOARD<span></div>
+    <div class="site-title"><span class="retro">LARA</span><span class="board">BOARD<span></div>
     <div class="site-description">{{ $index['siteDescription'] }}</div>
   </div>
   <hr class="board-separator">
