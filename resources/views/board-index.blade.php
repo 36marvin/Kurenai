@@ -33,7 +33,7 @@
   <div class="thread-bullets">•</div>
   <div class="thread-hiperlink">Sou uma thread!</div>
   <div class="thread-user">- Marvin</div>
-  <div class="thread-date">2 days ago</div>
+  <div data-unix-date="{{ $thread['unixDate'] }}" class="thread-date">{{ $thread['formatedDate'] }}</div>
   <div class="thread-reply-count">[2]</div>
   <div class="thread-reply-count">🔒 ♻️</div>
 </div>
