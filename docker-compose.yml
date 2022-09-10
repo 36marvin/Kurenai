@@ -24,7 +24,7 @@ services:
             - sail
         depends_on:
             - mysql
-            - redis
+            #- redis
             # - meilisearch
             # - mailhog
             # - selenium
