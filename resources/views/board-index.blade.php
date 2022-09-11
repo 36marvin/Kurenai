@@ -27,6 +27,7 @@
     </form>
 @endif
 
+foreach($threads as $thread)
 <div class="thread-index-container">
 
 <div class="thread-container">
@@ -35,15 +36,15 @@
   <div class="thread-user">- $thread['userName']</div>
   <div data-unix-date="{{ $thread['unixDate'] }}" class="thread-date">{{ $thread['formatedDate'] }}</div>
   <div class="thread-reply-count">[$thread['replyCount']]</div>
-  <div class="thread-reply-count">$thread['tags']</div> <!-- locked, infinite, etc -->
+  <div class="thread-reply-count">$thread['tags']</div>  {{-- locked, infinite, etc --}}
 </div>
-
-
-<div class="thread-reply-container">
-  <div class="thread-bullets">•</div> <!-- FFS, maybe this should be an <i>??? -->
-  <div class="thread-hiperlink reply-hiperlink">Que legal, OP. Parabéns por fazer essa thread.</div>
-  <div class="thread-user">- Lucas</div>
-</div>
+  foreach($thread['replies'] as $reply)
+    <div class="thread-reply-container">
+      <div class="thread-hiperlink reply-hiperlink">$reply['title']</div>
+      <div class="thread-user">- $reply['userName']</div>
+  </div>
+  endforeach
+endforeach
 
 </div>
 
