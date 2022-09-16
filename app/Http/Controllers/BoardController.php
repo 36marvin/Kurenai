@@ -6,26 +6,47 @@ use Illuminate\Http\Request;
 
 class BoardController extends Controller
 {
-    function serveBoardIndex ($page, Request $request) {
-        if (!$page) {
-            $page = 1;
-        }
+    function serveBoard ($boardUri, $page) { // this is not going to last, we need a view composer
+        $boardData = $this->getBoardPageData($boardUri, $page);
+        return view('board-index', $boardData);
     }
 
-    function createBoard (Request $request, BoardModel $board) {
+    /**
+     *  Where options are the name of the board, it's
+     *  visibility config, description, uri, etc..
+     */
+
+    function createBoard ($options) {
         // create table
-        $this->setBoardInfo(); // insert name, description, options, etc.
+
+        $this->setBoardInfo($options);
     }
 
-    function deleteBoard ($request, BoardModel $board) {
+    function deleteBoard ($boardUri) {
         
     }
 
-    function updateBoard (Request $request) {
-        $this->setBoardInfo();
+    function updateBoardConfig ($options) {
+        $this->setBoardConfig($options);
     }
 
-    private function setBoardInfo () {
+    private function setBoardConfig () {
 
+    }
+
+
+    /**
+     *   Returns an array containing thread data (title, author, time...), 
+     *   and reply data (title, author, etc) for each thread.
+     */
+
+    private function getBoardViewData($boardUri, $page, BoardModel $board) {
+        if (!$page) {
+            $page = 1;
+        }
+
+        $board->getBoardViewData();
+
+        return $thread;
     }
 }

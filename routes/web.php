@@ -16,7 +16,7 @@ use App\Http\Controllers;
 
 Route::get('/', [IndexController::class, 'serverIndex']);
 
-Route::get('/{boardUri}', [BoardController::class, 'serverBoard']);
+Route::get('/{boardUri}', [BoardController::class, 'serveBoard']);
 
 Route::get('/{boardUri}/{threadId}', [ThreadController::class, 'serveThread']);
 
