@@ -3,8 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 
-class BoardController extends Controller
+/**
+ *  Just for psychological/clarity purposes. Google up 
+ *  "programming to the interface" and you'll see what 
+ *  I'm doing
+ */
+
+interface Iboard 
+{
+    public function deleteBoard($uri): void;
+    public function createBoard($options): void;
+    public function updateBoardConfig($uri, $options): void;
+    public function serveBoard($uri, $page): View;
+}
+
+class BoardController extends Controller implements Iboard
 {
     function serveBoard ($boardUri, $page) { // this is not going to last, we need a view composer
         $boardData = $this->getBoardPageData($boardUri, $page);
@@ -16,17 +31,17 @@ class BoardController extends Controller
      *  visibility config, description, uri, etc..
      */
 
-    function createBoard ($options) {
+    public function createBoard ($options) {
         // create table
 
         $this->setBoardInfo($options);
     }
 
-    function deleteBoard ($boardUri) {
+    public function deleteBoard ($boardUri) {
         
     }
 
-    function updateBoardConfig ($options) {
+    public function updateBoardConfig ($options) {
         $this->setBoardConfig($options);
     }
 
