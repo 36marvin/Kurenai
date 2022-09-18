@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Models\PostModelParent;
-use App\Http\Models\ThreadModel;
+use App\Models\PostModelParent;
+use App\Models\ThreadModel;
 
 /**
  *   This class needs to provide some functions

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Models\PostModelParent;
+use App\Models\PostModelParent;
+use App\Models\ReplyModel;
 
 class ThreadModel extends PostModelParent
 {
