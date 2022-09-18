@@ -56,16 +56,20 @@ class ThreadModel extends PostModelParent
 
     public function getAllThreads($uri, $pagination) {
         $allThreads = getPinnedThreadsPerPage($uri, $pagination) + getNonPinnedThreadsPerPage($uri, $pagination);
-        $allThreads = $this->appendReplieskey($allThreads);
+        $allThreads = $this->appendReplykeys($allThreads);
         return $allThreads;
     }
 
     /**
-     *   Appends a new 'replies' key into the
-     *   thread associative array.
+     *   Appends a new 'replies' key to each thread, containing a
+     *   list of reply[n] keys to be looped into a thread array.
      */
 
-    private function appendReplieskey() {
-
+    private function appendReplykeys($threadArray, $repliesPerThread, ReplyModel $reply) {
+        foreach ($threadArray as $thread) {
+            $replies = getLastThreadReplies($thread['id'], $repliesPerThread);
+            $thread['replies'] = $replies;
+        }
+        return $threadArray;
     }
 }
