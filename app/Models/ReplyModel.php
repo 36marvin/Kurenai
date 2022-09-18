@@ -8,6 +8,14 @@ use App\Http\Models\PostModelParent;
 
 class ReplyModel extends PostModelParent
 {
+    protected $table = 'replies';
+
+    protected $primaryKey = 'id';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
     function createReply ($replyTitle, $replyBody, $userId, $threadId) {
         $this->title = $replyTitle;
         $this->body = $this->formatBody($replyBody);

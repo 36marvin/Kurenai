@@ -10,6 +10,14 @@ class ThreadModel extends PostModelParent
 {
     use HasFactory;
 
+    protected $table = 'threads';
+
+    protected $primaryKey = 'id';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
     function makeThread ($threadBody, $threadTitle, $isLocked, $isInfinite, $allowHtml, $userId) {
         $threadBody = $this->formatBody($threadBody);
     }
