@@ -20,4 +20,15 @@ class PostModelParent extends Model
     protected function formatBody($body, RegexProvider $regex) {
         return $regex->getFormattedBody($body);
     }
+
+    protected function getBoardCount ($boardUri) {
+        return DB::table('boards')
+                 ->where('uri', $boardUri)
+                 ->value('post_count')
+                 ->get();
+    }
+
+    protected function incrementBoardCount () {
+        return;
+    }
 }
