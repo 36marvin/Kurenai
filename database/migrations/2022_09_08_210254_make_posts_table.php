@@ -14,10 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            /**
-             *  Pretty redundant to add the 'unique' modifier 
-             *  here? Will leave it here just to be sure.
-             */
             $table->unsignedBigInteger('id')->unique()->primary()->autoIncrement();
             $table->unsignedBigInteger('thread_id');
             $table->string('post_title', 50)->nullable();

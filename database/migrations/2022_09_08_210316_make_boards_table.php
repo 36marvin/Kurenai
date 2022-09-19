@@ -23,9 +23,12 @@ return new class extends Migration
             $table->boolean('is_frozen')->default(false);
             $table->boolean('is_secret')->default(false);
 
-            $table->primary('id');
-            
-
+            // This is to make sure that thread and replies' public ids
+            // will always continuously increment together. Each new post
+            // of any type, in THIS board, should add this number by 1 
+            // and then take the result as its id number. This count should
+            // NEVER be subtracted.
+            $table->unsignedBigInteger('post_count');   
         });
     }
 

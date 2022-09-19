@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('threads', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->unique();
+            $table->unsignedBigInteger('id')->unique()->autoIncrement();
             $table->unsignedBigInteger('user_id'); // author of the thread 
             $table->unsignedBigInteger('board_id');
             $table->unsignedBigInteger('fuel_count')->default(0);
