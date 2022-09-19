@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('thread_title');
             $table->string('thread_body');
             $table->timestamp('created_at');
-            $table->timestamp('last_pinned_updated')->default(null); // pinned posts go first, the ones with longer last_pinned_update at the topmost
+            $table->timestamp('last_pinned_updated')->default(null); // pinned posts go first, the ones with longer last_pinned_update timestamp at the topmost
             $table->timestamp('last_valid_bump_at');
             $table->timestamp('last_edited_at');
             $table->boolean('is_locked')->default(false);

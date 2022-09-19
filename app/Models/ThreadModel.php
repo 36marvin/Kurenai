@@ -49,7 +49,7 @@ class ThreadModel extends PostModelParent
         // laravel automatically detects the 'page' input of the current request
         return $self::where('board_uri', $uri)
                     ->where('is_pinned', true)
-                    ->orderBy('last_pinned_at')
+                    ->orderBy('last_pinned_updated')
                     ->paginate($pagination)
                     ->get();
     }
