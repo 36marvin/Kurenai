@@ -11,9 +11,11 @@ class PostModelParent extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'body',
+        'post_title',
+        'post_body',
     ];
+
+    protected $guarded = [];
 
     protected $userId;
 
