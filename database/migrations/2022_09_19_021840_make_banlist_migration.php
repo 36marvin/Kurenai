@@ -25,7 +25,7 @@ return new class extends Migration
     {
         Schema::create('bans', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->unique();
-            $table->string('mod_id'); 
+            $table->string('mod_id');  // or "autoban"
             $table->string('banned_user_id');
             $table->string('board_uri'); // or "global", for global bans
 
