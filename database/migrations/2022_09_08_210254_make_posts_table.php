@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('post_body', 255);
             $table->integer('fuel_count')->default(0);
             $table->timestamp('created_at');
+            $table->timestamp('updated_at');
             $table->timestamp('last_edited_at');
             $table->boolean('is_highlighted')->default(false);
             

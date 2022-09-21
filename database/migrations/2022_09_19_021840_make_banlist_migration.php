@@ -38,11 +38,11 @@ return new class extends Migration
             $table->string('public_message');
             $table->timestamp('expires_at');
             $table->timestamp('created_at');
-            $table->timestamp('last_updated_at');
+            $table->timestamp('updated_at');
 
             // In case someone decides to take down a wrongful ban
             // without deleting it's entire record from the db
-            $table->boolean('is_revoked')->default(true);
+            $table->boolean('is_revoked')->default(false);
             $table->boolean('show_at_public_banlist')->default(false); // 
         });
     }

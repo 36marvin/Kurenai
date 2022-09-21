@@ -20,6 +20,7 @@ return new class extends Migration
 
             $table->string('board_description');
             $table->timestamp('created_at');
+            $table->timestamp('updated_at');
             $table->boolean('is_frozen')->default(false);
             $table->boolean('is_secret')->default(false);
 

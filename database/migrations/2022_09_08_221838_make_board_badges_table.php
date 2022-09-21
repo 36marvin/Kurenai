@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id')->unique();
             $table->unsignedBigInteger('user_id'); 
             $table->timestamp('created_at');
-            $table->timestamp('last_edited_at');
+            $table->timestamp('updated_at');
             $table->boolean('mod_1');
             $table->boolean('mod_2');
             $table->boolean('mod_3');
