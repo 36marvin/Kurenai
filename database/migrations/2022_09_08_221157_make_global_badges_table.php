@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('mod_2');
             $table->boolean('mod_3');
             $table->boolean('ban_reviewer');
+            $table->boolean('news_editor');
             $table->boolean('aux_manager');
             $table->boolean('aux_manager2');
             $table->boolean('admin');
