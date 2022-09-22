@@ -58,11 +58,13 @@ class AutoBanMiddleware
      *  table. If any record match, return true.
      */
 
-    public function stringHasBannedtext (string $string): bool {
-        $bannedStrings = [];
+    public function stringHasBannedtext (string $string, BanModel $ban): bool {
+        $bannedStrings = $ban->getBannedStrings();
+        
         // fetch banned words with a model, insert in $bannedStrings
 
         foreach ($bannedStrings as $bannedString) {
+            
         }
     }
 
