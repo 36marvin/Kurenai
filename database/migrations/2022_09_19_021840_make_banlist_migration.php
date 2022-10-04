@@ -13,16 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-        //
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
         Schema::create('bans', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->unique();
             $table->string('mod_id');  // or "autoban"
@@ -45,5 +35,15 @@ return new class extends Migration
             $table->boolean('is_revoked')->default(false);
             $table->boolean('show_at_public_banlist')->default(false); // 
         });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('bans');
     }
 };

@@ -12,12 +12,14 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {
-        $table->id()->unique();
-        $table->string('tag');
-        $table->string('tag_description')->nullable();
-        $table->timestamp('created_at');
-        $table->timestamp('updated_at');
+    {   
+        Schema::create('thread_tags', function (Blueprint $table) {
+            $table->id()->unique();
+            $table->string('tag');
+            $table->string('tag_description')->nullable();
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at'); 
+        });
     }
 
     /**
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('thread_tags');
     }
 };

@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        $table->unsignedBigInteger('thread_id')->unique();
-        $table->unsignedBigInteger('tag_id')->unique();
+        Schema::create('thread_tag_mapper', function (Blueprint $table) { //junction table
+            $table->unsignedBigInteger('thread_id')->unique();
+            $table->unsignedBigInteger('tag_id')->unique();
+        });
     }
 
     /**
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('thread_tag_mapper');
     }
 };
