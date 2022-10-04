@@ -18,7 +18,6 @@ return new class extends Migration
         $table->string('tag_description')->nullable();
         $table->timestamp('created_at');
         $table->timestamp('updated_at');
-        $table->boolean('updated_at');
     }
 
     /**
