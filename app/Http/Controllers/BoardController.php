@@ -13,9 +13,9 @@ use Illuminate\Contracts\View\View;
 
 interface Iboard 
 {
-    public function deleteBoard($uri): void;
-    public function createBoard($options): void;
-    public function updateBoardConfig($uri, $options): void;
+    public function deleteBoard($uri): bool; // did it work?
+    public function createBoard($options): bool;
+    public function updateBoardConfig($uri, $options): bool;
     public function serveBoard($uri, $page): View;
 }
 
