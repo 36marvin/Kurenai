@@ -14,7 +14,8 @@ use App\Http\Controllers;
 |
 */
 
-Route::get('/', [IndexController::class, 'serverIndex']);
+use App\Http\Controllers\IndexController;
+Route::get('/', [IndexController::class, 'serveIndex']);
 
 Route::get('/{boardUri}', [BoardController::class, 'serveBoard']);
 
