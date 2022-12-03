@@ -27,9 +27,10 @@
     </form>
 @endif
 
-foreach($threads as $thread)
 <div class="thread-index-container">
 
+@if($threads)
+@foreach($threads as $thread)
 <div class="thread-container">
   <div class="thread-bullets">•</div>
   <div class="thread-hiperlink">$thread['title']</div>
@@ -38,13 +39,16 @@ foreach($threads as $thread)
   <div class="thread-reply-count">[$thread['replyCount']]</div>
   <div class="thread-reply-count">$thread['tags']</div>  {{-- locked, infinite, etc --}}
 </div>
-  foreach($thread['replies'] as $reply)
+  @if(thread['replies'])
+  @foreach($thread['replies'] as $reply)
     <div class="thread-reply-container">
       <div class="thread-hiperlink reply-hiperlink">$reply['title']</div>
       <div class="thread-user">- $reply['userName']</div>
   </div>
-  endforeach
-endforeach
+  @endforeach
+  @endif
+@endforeach
+@endif
 
 </div>
 
