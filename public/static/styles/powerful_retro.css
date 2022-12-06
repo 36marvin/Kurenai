@@ -414,3 +414,7 @@ li {
 .retro-footer-link:hover {
  color: #2b2431;
 }
+
+.noscript-footer {
+  margin: 1em 0 0 0;
+}
