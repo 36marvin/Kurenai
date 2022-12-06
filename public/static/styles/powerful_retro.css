@@ -389,3 +389,28 @@ li {
 .global-banner {
   margin: 2em auto 0 auto;
 }
+
+.the-footer {
+  color: white;
+  margin-top: auto; 
+  text-align: center;
+  font-size: 13px;
+  padding: 20px 0px 20px 0px;
+  border-style: solid none none none;
+  border-width: 1px;
+  border-color: grey;
+  background-color: #2b2431;
+}
+
+.retro-footer-link {
+  background-color:rgb(4, 201, 207);
+  border-radius: 5px;
+  text-decoration-line: none;
+  color: white;
+  padding: 0.2em;
+  font-weight: bold;
+}
+
+.retro-footer-link:hover {
+ color: #2b2431;
+}

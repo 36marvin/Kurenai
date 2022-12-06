@@ -39,7 +39,7 @@
     @endforeach
     @else
     <a class="index-board-hyperlink">No boards featured</a>
-    @endif {{-- todo: if no boards, display: "no boards yet" --}}
+    @endif
 </div>  
 <hr class="board-separator">
 <div class="index-thread-intro">Hot threads</div>
@@ -50,15 +50,15 @@
     @endforeach
     @else
     <li style="color: grey;">No threads yet. Only the silence.</li>
-    @endif {{-- todo: no featured threads, display: "nothing to see here yet" --}}
+    @endif
 </ul> 
 
 <table class="index-booru__table"> 
 <tr><th class="index-booru-table__header">Booru</th></tr>
 <tr><td class="index-booru-table__body"> 
-  {{-- 
-    maybe dump the "featured img" thing and turn this into the list of all public boards 
-  --}}
+{{-- 
+  maybe dump the "featured img" thing and turn this into the list of all public boards 
+--}}
   @if(isset($booru['featured_images']))
   @foreach($booru['featured_images'] as $image)
   <img class="index-booru-table__img" src="/images/{{ $image['uri'] }}">
@@ -89,7 +89,6 @@
             @else
             <td class="news-title">No news yet.<td>
             <td class="news-date">(no date)<td>
-
             @endif
           </tr>
           </tbody>
@@ -102,8 +101,10 @@
   </div>
 </div>
 </div>
-
-{{-- this section will be most likely partially or totally deleted --}}
+@include('global.footer')
+</body>
+</html>
+{{-- this section will be most likely partially or totally deleted 
 <div class="box-vp box3"> 
 
   <div class="index-youtube">
@@ -122,4 +123,4 @@
   </div>
 </div>
 </div>
-</body>
+--}}
