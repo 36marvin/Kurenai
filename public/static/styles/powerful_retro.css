@@ -14,14 +14,14 @@ body {margin:0;}
  /* background-image: url(smth.jpeg);
  background-repeat: no-repeat;
  background-size: 100% 100%; */
- background-color: #04061e;
+ background-color: #252739;
  height: fit-content !important;
  border-width: 0 0 1px 0; 
  padding-bottom: 3em;
 }
 
 .box2{
-    background-color: #04061e;
+    background-color: #252739;
     border: solid white;
     border-width: 1px 0 1px 0;
 }
@@ -96,13 +96,11 @@ body {margin:0;}
 .index-thread-ul {
   width: max-content;
   height: 15em;
-  margin: 1em auto 0 auto;
+  margin: 0 auto 0 auto;
   padding: 0.7em 6em 1em 6em;
   background-color: #01020e;
   overflow-y: scroll;
-  color: white;
-  border: solid 1px;
-  
+  color: white;  
 /*  column-gap: 10em;
   column-count: 2;
   column-rule-style: solid; */
@@ -124,7 +122,7 @@ li {
 
 .board-separator {
   width: 30vw;
-  border-color: white;
+  border-color: #86869d;
   margin-top: 2em;
   margin-bottom: 2em;
 }
@@ -250,7 +248,6 @@ li {
 
 .index-board-hyperlink {
   width: fit-content;
-  border: 1px solid white;
   color: white;
   background-color: #01020e;
   display: inline;
@@ -258,10 +255,12 @@ li {
   padding: 0.2em;
   font-weight: bold;
   font-size: 15px;
+  border-radius: 5px;
 }
 
 .index-board-hyperlink:nth-child(odd) {
-  color: red;
+  background-color: #f01414;
+  color: white;
 }
 
 .index-board-hyperlink:nth-child(1) {
@@ -329,7 +328,7 @@ li {
 }
 
 .index-booru-table__body {
-  background-color: grey;
+  background-color: #01020e;
   height: 10em;
 
   display: flex;
@@ -365,9 +364,12 @@ li {
 }
 
 .index-thread-intro {
-  width: fit-content;
+  width: 100%;
   margin: 0 auto;
-  color: white; 
+  color: white;
+  background-color: #f01414;
+  font-weight: bold;
+  text-align: center;
 }
 
 .global-user-ops {
@@ -417,4 +419,10 @@ li {
 
 .noscript-footer {
   margin: 1em 0 0 0;
+}
+
+.hot-threads-wrapper {
+  width: fit-content;
+  margin: 0 auto;
+  border: 1px solid white;
 }

@@ -42,6 +42,7 @@
     @endif
 </div>  
 <hr class="board-separator">
+<div class="hot-threads-wrapper">
 <div class="index-thread-intro">Hot threads</div>
 <ul class="index-thread-ul"> {{-- this is where "hot" threads are supposed to be --}}
     @if(isset($index['threads']))
@@ -51,7 +52,8 @@
     @else
     <li style="color: grey;">No threads yet. Only the silence.</li>
     @endif
-</ul> 
+</ul>
+</div>
 
 <table class="index-booru__table"> 
 <tr><th class="index-booru-table__header">Booru</th></tr>
