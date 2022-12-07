@@ -12,6 +12,7 @@
 <div class="flex-wrapper">
 <div class="box-vp box1"> 
 {{-- <div class="box1-wrapper"> --}}
+@include('global.warnings')
 @include('global.navbar')
 <img src="a.jpg" class="global-banner">  {{-- what if this was a featured image from the booru? --}} 
 <div class="index-boards">Featured boards</div>

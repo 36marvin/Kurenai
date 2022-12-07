@@ -9,10 +9,7 @@
 </head>
 
 <body style="margin: 0">
-
-@if(isset($warning))
-<div class="global-news">Warning: development mode is on. Debug mode is on.</div>
-@endif
+@include('global.warnings')
 @include('global.navbar')
 <div class="board-header">
   <div class="board-name">/{{ $boardConfig['uri'] }}/ - {{ $boardConfig['name'] }}</div>
@@ -40,7 +37,7 @@
 <div class="threadlist-containter"> 
 <div class="thread-index-container">
 
-@if($threads)
+@if(isset($threads))
 @foreach($threads as $thread)
 <div class="thread-container">
   <div class="thread-bullets">•</div> 
