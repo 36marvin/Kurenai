@@ -5,31 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $index['siteName'] ?? 'Retroboard' }}</title>
-    @if(isset($preferred_stylesheet))
-    <link rel="stylesheet" href="/static/styles/{{ $preferred_stylesheet['uri'] }}.css">
-    @else
-    <link rel="stylesheet" href="/static/styles/powerful_retro.css">
-    @endif
+    @include('head.stylesheets')
 </head>
 <body>
 <div class="mascot"></div>
 <div class="flex-wrapper">
 <div class="box-vp box1"> 
 {{-- <div class="box1-wrapper"> --}}
-<table class="global-navbar">
-<tr>
-  <td class="global-navbar__intro global-navbar__td global-navbar__sitename">
-    <div class="site-title"><span class="lara">LARA</span><span class="board">BOARD<span></div>
-  </td>
-  <td class="useful-pages global-navbar__td">
-  <div class="global-user-ops__wrapper">
-    <div class="global-user-ops">LOGIN</div>
-    <div class="global-user-ops">SIGN UP</div>
-  </div>
-  </td>
-</tr>
-</table>
-
+@include('global.navbar')
 <img src="a.jpg" class="global-banner">  {{-- what if this was a featured image from the booru? --}} 
 <div class="index-boards">Featured boards</div>
 <div class="index-boardlist">
