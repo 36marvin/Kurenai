@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Model\BoardModel;
+use App\Model\GlobalConfigModel;
 
 /**
  *  Let's program to the interface.
@@ -17,14 +19,15 @@ interface Iboard
     public function deleteBoard($uri): bool; // did it work?
     public function createBoard($options): bool;
     public function updateBoardConfig($uri, $options): bool;
-    public function serveBoard($uri, $page): View;
+    public function serveBoard($boardUri): View;
 }
 
 class BoardController extends Controller implements Iboard
 {
-    function serveBoard ($boardUri, $page) { // this is not going to last, we need a view composer
-        $boardData = $this->getBoardPageData($boardUri, $page);
-        return view('board-index', $boardData);
+    function serveBoard ($boardUri) { // this is not going to last, we need a view composer
+        $threads = $this->getThreads($boardUri);
+        $boardConfig = setBoardConfig($boardUri);
+        return view('board-index', $threads, $boardConfig);
     }
 
     /**
@@ -56,19 +59,24 @@ class BoardController extends Controller implements Iboard
      *   and reply data (title, author, etc) for each thread.
      */
 
-    private function getBoardConfig($boardUri, $page, Request $request, BoardModel $board) {
+    private function getBoardConfig($boardUri, Request $request, BoardModel $board): array {
         $boardConfig = $board::select('uri', 'name', 'description')
                              ->where('board_uri', $boardUri)
-                             ->get();
+                             ->get()
+                             ->toArray();
         return $boardConfig;
     }
 
-    private function getThreads($boardUri, ThreadModel $thread, GlobalConfigModel $globalConfig, BoardModel $board) {
-        // get the number of threads to display per page
+    private function getThreads($boardUri) {
+        $threads = getThreadsAtPage($boardUri);
+        $threads = appendRepliesToThreads($threads);
+        return $threads;
+    }
+
+    private function getThreadsAtPage ($boardUri, GlobalConfigModel $globalConfig) {
         $threadsPerPage = $globalConfig::select('threads_per_page')->first()->threads_per_page; 
 
-        // the paginator will wrap all threads into a x 
-        // number of pages each containing that number of threads
+        // get all threads of the current page according to the aforementioned pagination constraint
         $threads = DB::table('threads')
                     /**
                      * this query should put all pinned threads at the top, sorted by the 
@@ -86,26 +94,55 @@ class BoardController extends Controller implements Iboard
                                  )
                              )
                      ->paginate($threadsPerPage)
-                     ->get();
-
-        // now append the replies to the threads under the replies property
-        
-        // make a list of what threads we do have
-        $whatThreadsDoWeHave = [];
-        foreach($threads as $thread) {
-            arrayPush($whatThreadsDoWeHave, $thread->id); //append to the end of the array
-        };
-
-        // we will use a single query to fetch those replies that 
-        // match with the id of any thread that we have in the list
-        $threadIdsForQuery = strval($whatThreadsDoWeHave);
-
-        // now we make the query
-        $replies = DB::table('replies')
-                     ->select(raw(
-                                  "SELECT title, user.name FROM replies WHERE board_uri = $boardUri AND title != null AND thread_id IN &{$threadIdsArray}"
-                            ));
-
-        // return $threads;
+                     ->get()
+                     ->toArray();
+        return $threads;
     }
+
+    private function appendRepliesToThreads (array $threads): array {
+        $threadsWithReplies;
+        foreach($threads as $thread) {
+            $thread += ['replies' => array()];
+            $replies = DB::table('replies')
+                         ->select(raw(
+                                      "SELECT title, user.name, thread_id as id FROM replies
+                                      WHERE title !=null AND thread_id = ${$thread['id']}
+                                      LEFT JOIN users ON replies.user_id = user.id
+                                      ORDER BY created_at LIMIT 6;"
+                                     )
+                                 )
+                         ->get()
+                         ->toArray();
+            $thread['replies'] = $replies;
+        };
+        return $threads;
+
+
+        // WELP... I TRIED
+        //
+        // we will use a single query to fetch those replies that 
+        // match their thread_id property with the id of any thread 
+        // that we have in the list
+        // $threadIdsForQuery = strval($whatThreadsDoWeHave);
+        // $replies = DB::table('replies')
+        //              ->select(raw(
+        //                           "SELECT title, user.name, thread_id as id FROM replies 
+        //                           WHERE board_uri = $boardUri AND title != null AND thread_id IN &{$threadIdsArray}"
+        //                          )
+        //                      )
+        //              ->get();
+        // $replies = json_decode(json_encode($replies), true);        
+        // return $replies;
+    }
+
+    // private function appendRepliesToThreads (array $threads, array $replies) {
+    //     foreach ($threads as $thread) {
+    //         $thread += ['replies' => array()];
+    //         foreach ($replies as $reply) {
+    //             if ($reply['thread_id'] == $thread['id']) {
+    //                 $thread['replies'] += $reply;
+    //             }
+    //         }
+    //     };
+    // }
 }

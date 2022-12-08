@@ -41,8 +41,8 @@
 @foreach($threads as $thread)
 <div class="thread-container">
   <div class="thread-bullets">•</div> 
-  <div class="thread-hiperlink">{{ $thread['title'] }}</div>
-  <div data-unix-date="{{ $thread['unixDate'] }}" class="thread-date">{{ $thread['formatedDate'] }}</div>
+  <div class="thread-hiperlink">{{ $thread['title'] }}</div> 
+  <div data-unix-date="{{ $thread['created_at'] }}" class="thread-date">{{ $thread['created_at'] /* remember to convert this to human readable */ }}</div>
   <div class="thread-reply-count">({{ $thread['replyCount']}} )</div>
   <div class="thread-props-container"> {{-- these sgv are making the index A LOT bigger than it should be, probably might need to replace by images --}}
     @if($thread['isLocked'])
@@ -55,7 +55,7 @@ c0-30.327,24.673-55,54.999-55c30.327,0,55,24.673,55,55v45H110.001V85z"/></g><g><
     @if($thread['isAnonymous'])
     <svg class="thread-props" xmlns="http://www.w3.org/2000/svg" viewBox="0 1 16 14">   <path fill-rule="evenodd" clip-rule="evenodd" d="M5.371 1.072a1 1 0 00-1.32.612L2.28 7H1a1 1 0 000 2h14a1 1 0 100-2h-1.28l-1.77-5.316a1 1 0 00-1.32-.612L8 2.123 5.371 1.072zM11.613 7l-1.226-3.678-2.016.806a1 1 0 01-.742 0l-2.016-.806L4.387 7h7.226z"></path>   <path d="M2 11a1 1 0 100 2c.552 0 .98.475 1.244.959A2 2 0 005 15h.558a2 2 0 001.898-1.367l.105-.317a.463.463 0 01.878 0l.105.316A2 2 0 0010.441 15H11a2 2 0 001.755-1.041c.266-.484.693-.959 1.245-.959a1 1 0 100-2H2z"></path> </svg>
     @endif
-    @if($thread['isCycling'])
+    @if($thread['isInfinite'])
     <svg class="thread-props" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="3 4 18 16">          <title>loop</title>     <desc>Created with sketchtool.</desc>     <g id="media-player" stroke="none" stroke-width="1" fill-rule="evenodd">         <g id="loop">             <path d="M6.8762659,15.1237341 C7.93014755,16.8486822 9.83062143,18 12,18 C14.6124377,18 16.8349158,16.3303847 17.6585886,14 L19.747965,14 C18.8598794,17.4504544 15.7276789,20 12,20 C9.28005374,20 6.87714422,18.6426044 5.43172915,16.5682708 L3,19 L3,13 L9,13 L6.8762659,15.1237341 Z M17.1245693,8.87543068 C16.0703077,7.15094618 14.1695981,6 12,6 C9.3868762,6 7.16381436,7.66961525 6.33992521,10 L4.25,10 C5.13831884,6.54954557 8.27134208,4 12,4 C14.7202162,4 17.123416,5.35695218 18.5692874,7.43071264 L21,5 L21,11 L15,11 L17.1245693,8.87543068 Z" id="Shape"></path>         </g>     </g> </svg>
     @endif
 </div>
