@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 
 /**
- *  Just for psychological/clarity purposes. Google up 
- *  "programming to the interface" and you'll see what 
- *  I'm doing
+ *  Let's program to the interface.
+ * 
+ *  Remember to validate the requests somewhere else, 
+ *  otherwise weird bugs will occur.
  */
 
 interface Iboard 
@@ -55,13 +56,37 @@ class BoardController extends Controller implements Iboard
      *   and reply data (title, author, etc) for each thread.
      */
 
-    private function getBoardViewData($boardUri, $page, BoardModel $board) {
-        if (!$page) {
-            $page = 1;
-        }
+    private function getBoardConfig($boardUri, $page, Request $request, BoardModel $board) {
+        $boardConfig = $board::select('uri', 'name', 'description')
+                             ->where('board_uri', $boardUri)
+                             ->get();
+        return $boardConfig;
+    }
 
-        $board->getBoardViewData();
+    private function getThreads($boardUri, ThreadModel $thread, GlobalConfigModel $globalConfig, BoardModel $board) {
+        // get the number of threads to display per page
+        $threadsPerPage = $globalConfig::select('threads_per_page')->first()->threads_per_page; 
 
-        return $thread;
+        // the paginator will wrap all threads into a x 
+        // number of pages each containing that number of threads
+        $threads = DB::table('threads')
+                     ->select(raw(
+                                  "SELECT id, title, body, created_at, is_locked, is_infinite, is_pinned FROM threads WHERE thread_uri = $threadUri AND is_pinned = true ORDER BY last_pinned_updated
+                                  UNION
+                                  SELECT id, title, body, created_at, is_locked, is_infinite, is_pinned FROM threads WHERE thread_uri = $threadUri AND is_pinned = false ORDER BY last_valid_bump_at"
+                                 )
+                             )
+                     ->paginate($threadsPerPage)
+                     ->get();
+
+        // now append the replies to the threads under the replies property
+        
+        // check what threads we do have, so we can make a single query to get all replies later
+        $whatThreadsDoWeHave;
+        foreach($threads as $thread) {
+            $whatThreadsDoWeHave = appendArray($thread->id); //append to the end of the array
+        };
+        
+        // return $threads;
     }
 }

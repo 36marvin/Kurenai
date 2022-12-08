@@ -17,6 +17,8 @@ class BoardModel extends Model
 
     protected $keyType = 'string';
 
+    // protected $fillable = [];
+
     public function getBoardViewData($uri, $page) {
 
     }
