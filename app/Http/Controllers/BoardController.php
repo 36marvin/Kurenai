@@ -70,10 +70,19 @@ class BoardController extends Controller implements Iboard
         // the paginator will wrap all threads into a x 
         // number of pages each containing that number of threads
         $threads = DB::table('threads')
-                     ->select(raw(
-                                  "SELECT id, title, body, created_at, is_locked, is_infinite, is_pinned FROM threads WHERE thread_uri = $threadUri AND is_pinned = true ORDER BY last_pinned_updated
+                    /**
+                     * this query should put all pinned threads at the top, sorted by the 
+                     * last_pinned update timestamp;
+                     * then at the bottom comes all the non-pinned threads sorted by the 
+                     * last_valid_bump timestamp and, if none, the created_at timestamp.   
+                     */
+                     ->select(raw( 
+                                  "SELECT thread.id, title, user.name, body, created_at, is_locked, is_infinite, is_pinned FROM threads WHERE board_uri = $boardUri AND is_pinned = true
+                                  LEFT JOIN users ON threads.user_id = user.id
                                   UNION
-                                  SELECT id, title, body, created_at, is_locked, is_infinite, is_pinned FROM threads WHERE thread_uri = $threadUri AND is_pinned = false ORDER BY last_valid_bump_at"
+                                  SELECT thread.id, title, user.name, body, created_at, is_locked, is_infinite, is_pinned FROM threads WHERE thread_uri = $threadUri AND is_pinned = false
+                                  LEFT JOIN users ON threads.user_id = user.id
+                                  ORDER BY is_pinned, last_pinned_update, last_valid_bump_at, created_at DESC"  
                                  )
                              )
                      ->paginate($threadsPerPage)
@@ -81,12 +90,22 @@ class BoardController extends Controller implements Iboard
 
         // now append the replies to the threads under the replies property
         
-        // check what threads we do have, so we can make a single query to get all replies later
-        $whatThreadsDoWeHave;
+        // make a list of what threads we do have
+        $whatThreadsDoWeHave = [];
         foreach($threads as $thread) {
-            $whatThreadsDoWeHave = appendArray($thread->id); //append to the end of the array
+            arrayPush($whatThreadsDoWeHave, $thread->id); //append to the end of the array
         };
-        
+
+        // we will use a single query to fetch those replies that 
+        // match with the id of any thread that we have in the list
+        $threadIdsForQuery = strval($whatThreadsDoWeHave);
+
+        // now we make the query
+        $replies = DB::table('replies')
+                     ->select(raw(
+                                  "SELECT title, user.name FROM replies WHERE board_uri = $boardUri AND title != null AND thread_id IN &{$threadIdsArray}"
+                            ));
+
         // return $threads;
     }
 }

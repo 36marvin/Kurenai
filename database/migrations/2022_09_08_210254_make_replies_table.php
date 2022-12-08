@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('replies', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->unique()->primary()->autoIncrement();
             $table->unsignedBigInteger('thread_id');
-            $table->string('post_title', 50)->nullable();
-            $table->string('post_body', 255);
+            $table->string('reply_title', 50)->nullable();
+            $table->string('reply_body', 255);
             $table->integer('fuel_count')->default(0);
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('replies');
     }
 };
