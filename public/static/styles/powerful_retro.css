@@ -11,10 +11,10 @@ body {margin:0;}
 }
 
 .box1{
- /* background-image: url(smth.jpeg);
+ background-image: url(/static/img/misc/powerful_retro_by_patreon.comSlashWaneella.gif);
  background-repeat: no-repeat;
- background-size: 100% 100%; */
- background-color: #252739;
+ background-size: 100% 100%; 
+ /* background-color: #252739; */
  height: fit-content !important;
  border-width: 0 0 1px 0; 
  padding-bottom: 3em;
@@ -76,7 +76,7 @@ body {margin:0;}
 }
 
 .global-navbar__intro {
-  color: white;
+  color: #b34c4c;
   font-weight: bold;
   
   text-align: center;
@@ -348,7 +348,7 @@ li {
 }
 
 .global-navbar__td {
-  border: 1px solid grey;
+/*  border: 1px solid grey; */
   height: fit-content;
   padding: 0;
 }
@@ -375,7 +375,6 @@ li {
 .global-user-ops {
   height: 100%;
   font-weight: bold;
-  border: solid grey;
   border-width: 0 1px 0 1px; 
   color: white;
   padding: 0.3em;
