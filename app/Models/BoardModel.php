@@ -23,10 +23,6 @@ class BoardModel extends Model
 
     // protected $fillable = [];
 
-    public function getBoardViewData($uri, $page) {
-
-    }
-
     public function updateBoard($uri) {
         
     }
@@ -39,7 +35,7 @@ class BoardModel extends Model
             'is_frozen' => $request->isFrozen ?? false,
             'is_secret' => $request->isSecret ?? false,
         ]);
-        
+        $this->save();
     }
 
     public function deleteBoard($uri) {
@@ -52,7 +48,7 @@ class BoardModel extends Model
      */
 
      public function getBoardConfig($boardUri, Request $request): array {
-        $boardConfig = $this->select('uri', 'name', 'description')
+        $boardConfig = $this->select('uri', 'board_name', 'board_description')
                             ->where('board_uri', $boardUri)
                             ->get()
                             ->toArray();
