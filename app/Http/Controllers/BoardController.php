@@ -35,10 +35,8 @@ class BoardController extends Controller implements Iboard
      *  visibility config, description, uri, etc..
      */
 
-    public function createBoard ($options) {
-        // create table
-
-        $this->setBoardInfo($options);
+    public function createBoard (BoardModel $boardModel) {
+        $boardModel->createBoard();
     }
 
     public function deleteBoard ($boardUri) {

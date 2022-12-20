@@ -13,6 +13,10 @@ class BoardModel extends Model
 
     protected $primaryKey = 'uri';
 
+    const CREATED_AT = 'created_at';
+
+    const UPDATED_AT = 'updated_at';
+
     public $incrementing = false;
 
     protected $keyType = 'string';
@@ -27,7 +31,14 @@ class BoardModel extends Model
         
     }
 
-    public function createBoard($options) {
+    public function createBoard(Request $request) {
+        $this->insert([
+            'board_name' => $request->boardName,
+            'board_uri' => $request->boardUri,
+            'board_description' => $request->boardDescription,
+            'is_frozen' => $request->isFrozen ?? false,
+            'is_secret' => $request->isSecret ?? false,
+        ]);
         
     }
 
