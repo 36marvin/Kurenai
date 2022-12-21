@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\BoardFactory;
 
 class BoardModel extends Model
 {
@@ -22,6 +23,10 @@ class BoardModel extends Model
     protected $keyType = 'string';
 
     // protected $fillable = [];
+
+    protected static function newFactory() {
+        return BoardFactory::new();
+    }
 
     public function updateBoard($uri) {
         

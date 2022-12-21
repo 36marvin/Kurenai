@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id')->unique();
             $table->string('board_name');
             $table->string('board_uri');
-
             $table->string('board_description');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');

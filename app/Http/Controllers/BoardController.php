@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use App\Model\BoardModel;
-use App\Model\GlobalConfigModel;
+use App\Models\BoardModel;
+use App\Models\GlobalConfigModel;
 
 /**
  *  Let's program to the interface.
