@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\User;
-use App\Model\ThreadModel;
+use App\Models\User;
+use App\Models\ThreadModel;
 
 class Thread extends Controller
 
