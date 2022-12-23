@@ -24,9 +24,9 @@ interface Iboard
 
 class BoardController extends Controller implements Iboard
 {
-    function serveBoard ($boardUri, BoardModel $boardModel) { // this is not going to last, we need a view composer
-        $threads = $boardModel->getThreads($boardUri);
-        $boardConfig = $boardModel->getBoardConfig($boardUri);
+    function serveBoard (BoardModel $boardModel) { // this is not going to last, we need a view composer
+        $threads = $boardModel->getThreadsForIndex();
+        $boardConfig = $boardModel->getBoardConfig();
         return view('board-index', $threads, $boardConfig);
     }
 

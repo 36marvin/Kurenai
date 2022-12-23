@@ -32,44 +32,69 @@ class ThreadModel extends PostModelParent
     }
 
     /**
-     *  Returns an array of the desired threads 
-     *  with all attributes (locked, highlighted, etc.)
+     *  Returns a Collection object for a query containing the
+     *  non pinned threads of a board. No query building is done yet.
      */
 
-    private function getNonPinnedThreadsPerPage($uri, $pagination) { 
-        // laravel automatically detects the 'page' input of the current request
-        return $self::where('board_uri', $uri)
+    private function getLatestNonPinnedThreads($boardUri) { 
+        return $this->where('board_uri', $boardUri)
                     ->where('is_pinned', false)
-                    ->orderBy('created_at')
-                    ->paginate($pagination)
-                    ->get();
-    }
-
-    private function getPinnedThreadsPerPage($uri, $pagination) { 
-        // laravel automatically detects the 'page' input of the current request
-        return $self::where('board_uri', $uri)
-                    ->where('is_pinned', true)
-                    ->orderBy('last_pinned_updated')
-                    ->paginate($pagination)
-                    ->get();
-    }
-
-    public function getAllThreads($uri, $pagination) {
-        $allThreads = getPinnedThreadsPerPage($uri, $pagination) + getNonPinnedThreadsPerPage($uri, $pagination);
-        $allThreads = $this->appendReplykeys($allThreads);
-        return $allThreads;
+                    ->orderBy('created_at');
     }
 
     /**
-     *   Appends a new 'replies' key to each thread, containing a
-     *   list of reply[n] keys to be looped into a thread array.
+     *  Returns a Collection object for a query containing the pinned
+     *  threads of a given board. No query building is done yet.
      */
 
-    private function appendReplykeys($threadArray, $repliesPerThread, ReplyModel $reply) {
-        foreach ($threadArray as $thread) {
-            $replies = getLastThreadReplies($thread['id'], $repliesPerThread);
+    private function getPinnedThreadsBoardIndex($boardUri) { 
+        return $this->where('board_uri', $boardUri)
+                    ->where('is_pinned', true)
+                    ->orderBy('last_pinned_updated');
+    }
+
+    /**
+     *  Returns a Collection object of all threads with the pinned threads
+     *  coming first. 
+     */
+
+    private function getAllThreadsBoardIndex(Request $request) {
+        $boardUri = $request->boardUri;
+        $howManyThreadsPerPage = $globalConfig::select('threads_per_page')->first()->threads_per_page;
+        $pinnedThreads = $this->getPinnedThreads($boardUri);
+        $nonPinnedThreads = $this->getLatestNonPinnedThreads($boardUri);
+        $allThreads = $pinnedThreads->concat($nonPinnedThreads);
+
+        // The "Collection" part is complete, now let's build the query
+        $allThreads= $allThreads->leftJoin('users', 'users.id', '=', 'threads.user_id')
+                                ->select('threads.id', 'users.name as poster', 'threads.title', 'threads.created_at', 'threads.is_locked', 'threads.is_infinite', 'threads.is_pinned')
+                                ->paginate($howManyThreadsPerPage)
+                                ->distinct()
+                                ->get()
+                                ->toArray();
+        return $allThreads;
+    }
+
+    private function appendRepliesToThreads (array $threads): array {
+        $howManyRepliesPerThread = $globalConfig::select('replies_per_thread')->first()->threads_per_page;
+        foreach($threads as $thread) {
+            $thread += ['replies' => array()];
+            $replies = DB::table('replies')
+                         ->leftJoin('users', 'replies.user_id', '=', 'users.id')
+                         ->select('replies.title', 'user.name as poster', 'replies.thread_id')
+                         ->where('replies.title', '!=', null)
+                         ->where('replies.thread_id', '=', $thread['id'])
+                         ->limit($howManyRepliesPerThread)
+                         ->get()
+                         ->toArray();
             $thread['replies'] = $replies;
-        }
-        return $threadArray;
+        };
+        return $threads;
+    }
+
+    public function getPaginatedBoardIndexThreadsWithReplies() {
+        $threads = $this->getAllThreadsBoardIndex();
+        $threads = $this->appendRepliesToThreads($threads);
+        return $threads;
     }
 }

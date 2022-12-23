@@ -10,6 +10,30 @@ use App\Models\BoardModel;
  */
 class BoardFactory extends Factory
 {
+    protected $model = BoardModel::class;
+
+    /**
+     *  Configures Factory to return only secret boards. 
+     *  Default is that all boards are non-secret. 
+     */
+    public function secret () {
+        return $this->state(function(array $attributes) {
+            return ['is_secret' => true];
+        });
+
+        
+    }
+
+    /**
+     *  Configures Factory to return only frozen boards. 
+     *  Default is that all boards are non-frozen. 
+     */
+    public function frozen () {
+        return $this->state(function (array $attributes) {
+            return ['is_frozen' => true];
+        });
+    }
+
     /**
      * Define the model's default state.
      *
@@ -31,9 +55,6 @@ class BoardFactory extends Factory
 
             // a 1 to 500 long string containing any chars, including newlines
             'board_description' => fake->unique()->regexify('/.{1,500}/s'), 
-
-            'is_secret' => array_rand(true, false),
-            'is_frozen' => array_rand(true, false),
         ];
     }
 }
