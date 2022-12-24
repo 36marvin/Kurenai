@@ -1,5 +1,5 @@
 <footer class="the-footer">
-    · A texboard running on <a target="_blank" referrerpolicy="no-referrer" href="https://www.github.com/36marvin/retroboard" class="retro-footer-link">Retroboard</a> ·
+    · An imageboard running on <a target="_blank" referrerpolicy="no-referrer" href="https://www.github.com/36marvin/kurenai" class="global-footer-link">Kurenai</a> ·
     <noscript> 
     <p class="noscript-footer">Your browser's Javascript is disabled.
     <br>
