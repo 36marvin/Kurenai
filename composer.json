@@ -1,8 +1,8 @@
 {
-    "name": "36marvin/retroboard",
+    "name": "36marvin/kurenai",
     "type": "project",
-    "description": "An online forum running on Laravel and Docker.",
-    "keywords": ["forum", "laravel","messageboard"],
+    "description": "A full-featured, user-based Laravel imageboard. Intended for building small, independent internet communities.",
+    "keywords": ["forum", "imageboard", "laravel","messageboard"],
     "license": "MIT",
     
     "authors": [

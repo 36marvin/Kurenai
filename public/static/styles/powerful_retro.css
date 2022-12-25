@@ -403,8 +403,8 @@ li {
   background-color: #2b2431;
 }
 
-.retro-footer-link {
-  background-color:rgb(4, 201, 207);
+.global-footer-link {
+  background-color:rgb(240, 20, 20);
   border-radius: 5px;
   text-decoration-line: none;
   color: white;
@@ -412,8 +412,8 @@ li {
   font-weight: bold;
 }
 
-.retro-footer-link:hover {
- color: #2b2431;
+.global-footer-link:hover {
+ color: black;
 }
 
 .noscript-footer {
