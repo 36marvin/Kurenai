@@ -16,15 +16,15 @@ use App\Models\GlobalConfigModel;
 
 interface Iboard 
 {
-    public function deleteBoard($uri): bool; // did it work?
-    public function createBoard($options): bool;
-    public function updateBoardConfig($uri, $options): bool;
-    public function serveBoard($boardUri): View;
+    // public function deleteBoard($uri): bool; 
+    // public function createBoard($options): bool;
+    // public function updateBoardConfig($uri, $options): bool;
+    public function serveBoard(): View;
 }
 
 class BoardController extends Controller implements Iboard
 {
-    function serveBoard (BoardModel $boardModel) { // this is not going to last, we need a view composer
+    public function serveBoard (BoardModel $boardModel) { // this is not going to last, we need a view composer
         $threads = $boardModel->getThreadsForIndex();
         $boardConfig = $boardModel->getBoardConfig();
         return view('board-index', $threads, $boardConfig);
