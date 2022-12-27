@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\Models\PostModelParent;
 use App\Models\ReplyModel;
 
@@ -39,7 +40,8 @@ class ThreadModel extends PostModelParent
     private function getLatestNonPinnedThreads($boardUri) { 
         return $this->where('board_uri', $boardUri)
                     ->where('is_pinned', false)
-                    ->orderBy('created_at');
+                    ->orderBy('created_at')
+                    ->get();
     }
 
     /**
@@ -50,34 +52,34 @@ class ThreadModel extends PostModelParent
     private function getPinnedThreadsBoardIndex($boardUri) { 
         return $this->where('board_uri', $boardUri)
                     ->where('is_pinned', true)
-                    ->orderBy('last_pinned_updated');
+                    ->orderBy('last_pinned_updated')
+                    ->get();
     }
 
     /**
      *  Returns a Collection object of all threads with the pinned threads
      *  coming first. 
      */
-
     private function getAllThreadsBoardIndex() {
         $boardUri = request()->boardUri;
-        $howManyThreadsPerPage = $globalConfig::select('threads_per_page')->first()->threads_per_page;
-        $pinnedThreads = $this->getPinnedThreads($boardUri);
+        $howManyThreadsPerPage = 10; // Todo: change this to fetch a number from a config table
+        $pinnedThreads = $this->getPinnedThreadsBoardIndex($boardUri);
         $nonPinnedThreads = $this->getLatestNonPinnedThreads($boardUri);
         $allThreads = $pinnedThreads->concat($nonPinnedThreads);
 
-        // The "Collection" part is complete, now let's build the query
-        $allThreads= $allThreads->leftJoin('users', 'users.id', '=', 'threads.user_id')
+        // Turning this from a Collection into a query builder againt because we 
+        // need to paginate all pinned and non pinned threads together
+        $allThreads= $allThreads->toQuery()
+                                ->leftJoin('users', 'users.id', '=', 'threads.user_id')
                                 ->select('threads.id', 'users.name as poster', 'threads.title', 'threads.created_at', 'threads.is_locked', 'threads.is_infinite', 'threads.is_pinned')
                                 ->paginate($howManyThreadsPerPage)
-                                ->distinct()
-                                ->get()
                                 ->toArray();
         return $allThreads;
     }
 
     private function appendRepliesToThreads (array $threads): array {
-        $howManyRepliesPerThread = $globalConfig::select('replies_per_thread')->first()->threads_per_page;
-        foreach($threads as $thread) {
+        $howManyRepliesPerThread = isset($globalConfig) ? $globalconfig::select('replies_per_thread')->first()->threads_per_page : 5;
+        foreach($threads['data'] as $thread) {
             $thread += ['replies' => array()];
             $replies = DB::table('replies')
                          ->leftJoin('users', 'replies.user_id', '=', 'users.id')
