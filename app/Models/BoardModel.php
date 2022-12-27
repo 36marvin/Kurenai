@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Database\Factories\BoardFactory;
-use App\Http\Models\ThreadModel;
+use App\Models\ThreadModel;
 
 class BoardModel extends Model
 {
@@ -25,6 +25,10 @@ class BoardModel extends Model
 
     // protected $fillable = [];
 
+    public function __construct (ThreadModel $threadModel) {
+        $this->threadModel = $threadModel;
+    }
+
     protected static function newFactory() {
         return BoardFactory::new();
     }
@@ -34,8 +38,8 @@ class BoardModel extends Model
      *  for the board index view. Detects the uri from the request 
      *  and does pagination automatically.
      */
-    public function getThreadsForIndex (ThreadModel $threadModel) {
-        return $threadModel->getPaginatedBoardIndexThreadsWithReplies();
+    public function getThreadsForIndex () {
+        return $this->threadModel->getPaginatedBoardIndexThreadsWithReplies();
     }
 
     public function updateBoard($uri) {
