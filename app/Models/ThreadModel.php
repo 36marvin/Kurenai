@@ -58,8 +58,8 @@ class ThreadModel extends PostModelParent
      *  coming first. 
      */
 
-    private function getAllThreadsBoardIndex(Request $request) {
-        $boardUri = $request->boardUri;
+    private function getAllThreadsBoardIndex() {
+        $boardUri = request()->boardUri;
         $howManyThreadsPerPage = $globalConfig::select('threads_per_page')->first()->threads_per_page;
         $pinnedThreads = $this->getPinnedThreads($boardUri);
         $nonPinnedThreads = $this->getLatestNonPinnedThreads($boardUri);
