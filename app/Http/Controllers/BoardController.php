@@ -24,9 +24,13 @@ interface Iboard
 
 class BoardController extends Controller implements Iboard
 {
-    public function serveBoard (BoardModel $boardModel) { // this is not going to last, we need a view composer
-        $threads = $boardModel->getThreadsForIndex();
-        $boardConfig = $boardModel->getBoardConfig();
+    public function __construct(BoardModel $boardModel) {
+        $this->boardModel = $boardModel;
+    }
+
+    public function serveBoard () { // this is not going to last, we need a view composer
+        $threads = $this->boardModel->getThreadsForIndex();
+        $boardConfig = $this->boardModel->getBoardConfig();
         return view('board-index', $threads, $boardConfig);
     }
 
@@ -35,8 +39,8 @@ class BoardController extends Controller implements Iboard
      *  visibility config, description, uri, etc..
      */
 
-    public function createBoard (BoardModel $boardModel) {
-        $boardModel->createBoard();
+    public function createBoard () {
+        $this->boardModel->createBoard();
     }
 
     public function deleteBoard ($boardUri) {
@@ -44,7 +48,7 @@ class BoardController extends Controller implements Iboard
     }
 
     public function updateBoardConfig ($options) {
-        $this->setBoardConfig($options);
+        $this->boardModel->setBoardConfig($options);
     }
 
     private function setBoardConfig () {

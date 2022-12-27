@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\BoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +16,6 @@ use App\Http\Controllers;
 |
 */
 
-use App\Http\Controllers\IndexController;
 Route::get('/', [IndexController::class, 'serveIndex']);
 
 Route::get('/{boardUri}', [BoardController::class, 'serveBoard']);
