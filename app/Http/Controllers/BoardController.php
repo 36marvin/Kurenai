@@ -16,13 +16,13 @@ use App\Models\GlobalConfigModel;
 
 interface Iboard 
 {
-    // public function deleteBoard($uri): bool; 
-    // public function createBoard($options): bool;
-    // public function updateBoardConfig($uri, $options): bool;
+    public function deleteBoard($uri): bool; 
+    public function createBoard($options): bool;
+    public function updateBoardConfig($uri, $options): bool;
     public function serveBoard(): View;
 }
 
-class BoardController extends Controller implements Iboard
+class BoardController extends Controller // implements Iboard
 {
     public function __construct(BoardModel $boardModel) {
         $this->boardModel = $boardModel;

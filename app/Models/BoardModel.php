@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Database\Factories\BoardFactory;
 use App\Models\ThreadModel;
 
@@ -26,7 +27,7 @@ class BoardModel extends Model
     // protected $fillable = [];
 
     public function __construct (ThreadModel $threadModel) {
-        $this->threadModel = $threadModel;
+        $this->threadModel = App::make('App\Models\ThreadModel');
     }
 
     protected static function newFactory() {
