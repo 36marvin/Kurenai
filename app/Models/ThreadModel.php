@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\PostModelParent;
 use App\Models\ReplyModel;
+use Database\Factories\ThreadFactory;
 
 class ThreadModel extends PostModelParent
 {
@@ -19,6 +20,10 @@ class ThreadModel extends PostModelParent
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    protected static function newFactory() {
+        return ThreadFactory::new();
+    }
 
     function makeThread ($threadBody, $threadTitle, $isLocked, $isInfinite, $allowHtml, $userId) {
         $threadBody = $this->formatBody($threadBody);
