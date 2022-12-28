@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('boards', function (Blueprint $table) {
             $table->uuid('id')->unique();
             $table->string('board_name', 255);
-            $table->string('board_uri', 255);
+            $table->string('board_uri', 255)->unique();
             $table->string('board_description', 2000);
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
