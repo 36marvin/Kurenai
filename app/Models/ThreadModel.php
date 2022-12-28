@@ -74,15 +74,21 @@ class ThreadModel extends PostModelParent
 
         // Turning this from a Collection into a query builder againt because we 
         // need to paginate all pinned and non pinned threads together
-        $allThreads= $allThreads->toQuery()
-                                ->leftJoin('users', 'users.id', '=', 'threads.user_id')
-                                ->select('threads.id', 'users.name as poster', 'threads.title', 'threads.created_at', 'threads.is_locked', 'threads.is_infinite', 'threads.is_pinned')
-                                ->paginate($howManyThreadsPerPage)
-                                ->toArray();
-        return $allThreads;
+        if($allThreads->isNotEmpty()) {
+            $allThreads= $allThreads->toQuery()
+                                    ->leftJoin('users', 'users.id', '=', 'threads.user_id')
+                                    ->select('threads.id', 'users.name as poster', 'threads.title', 'threads.created_at', 'threads.is_locked', 'threads.is_infinite', 'threads.is_pinned')
+                                    ->paginate($howManyThreadsPerPage)
+                                    ->toArray();
+        }
+        return $allThreads->toArray();
     }
 
-    private function appendRepliesToThreads (array $threads): array {
+    private function appendRepliesToThreads (array $threads) {
+        if (!$threads) {
+            return;
+        };
+
         $howManyRepliesPerThread = isset($globalConfig) ? $globalconfig::select('replies_per_thread')->first()->threads_per_page : 5;
         foreach($threads['data'] as $thread) {
             $thread += ['replies' => array()];

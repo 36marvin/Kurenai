@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $boardConfig['name'] }}</title>
+    <title>{{ $boardConfig['board_name'] }}</title>
     @include('head.stylesheets')
 </head>
 
@@ -12,8 +12,8 @@
 @include('global.warnings')
 @include('global.navbar')
 <div class="board-header">
-  <div class="board-name">/{{ $boardConfig['uri'] }}/ - {{ $boardConfig['name'] }}</div>
-  <div class="board-description">{{ $boardConfig['description'] }}</div>
+  <div class="board-name">/{{ $boardConfig['board_uri'] }}/ - {{ $boardConfig['board_name'] }}</div>
+  <div class="board-description">{{ $boardConfig['board_description'] }}</div>
 </div>
 
 

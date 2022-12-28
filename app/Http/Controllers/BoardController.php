@@ -31,7 +31,9 @@ class BoardController extends Controller // implements Iboard
     public function serveBoard () { // this is not going to last, we need a view composer
         $threads = $this->boardModel->getThreadsForIndex();
         $boardConfig = $this->boardModel->getBoardConfig();
-        return view('board-index', $threads, $boardConfig);
+
+        return view('board-index')->with('threads', $threads)
+                                  ->with('boardConfig', $boardConfig);
     }
 
     /**
