@@ -26,7 +26,7 @@ class BoardModel extends Model
 
     // protected $fillable = [];
 
-    public function __construct (ThreadModel $threadModel) {
+    public function __construct () {
         $this->threadModel = App::make('App\Models\ThreadModel');
     }
 
@@ -67,11 +67,11 @@ class BoardModel extends Model
      *   and reply data (title, author, etc) for each thread.
      */
 
-     public function getBoardConfig(Request $request): array {
-        $boardUri = $request->boardUri;
-        $boardConfig = $this->select('uri', 'board_name', 'board_description')
+     public function getBoardConfig(): array {
+        $boardUri = request()->boardUri;
+        $boardConfig = $this->select('board_uri', 'board_name', 'board_description')
                             ->where('board_uri', $boardUri)
-                            ->get()
+                            ->first()
                             ->toArray();
         return $boardConfig;
     }
