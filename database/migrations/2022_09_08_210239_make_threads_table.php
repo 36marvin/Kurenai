@@ -32,8 +32,7 @@ return new class extends Migration
             $table->boolean('is_infinite')->default(false);
             $table->boolean('is_pinned')->default(false);
             $table->boolean('is_censored')->default(false);
-            
-            $table->primary('id');
+
         });
 
     }
