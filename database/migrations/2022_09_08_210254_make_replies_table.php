@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('replies', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->unique()->primary()->autoIncrement();
+            $table->unsignedBigInteger('id')->unique()->autoIncrement();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('thread_id');
             $table->string('reply_title', 50)->nullable();
