@@ -14,25 +14,24 @@ return new class extends Migration
     public function up()
     {
         Schema::create('threads', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->unique()->autoIncrement();
-            $table->unsignedBigInteger('user_id'); // author of the thread 
-            $table->unsignedBigInteger('board_uri');
+            $table->uuid('id')->unique();
+            $table->uuid('user_id'); // author of the thread 
             $table->unsignedBigInteger('fuel_count')->default(0);
             $table->unsignedBigInteger('bump_count')->default(0);
 
-            $table->string('title');
-            $table->string('body');
+            $table->string('title', 255);
+            $table->string('body', 4000);
+            $table->string('board_uri', 255);
 
             $table->timestamp('created_at');
             $table->timestamp('last_pinned_updated')->default(null); // pinned posts go first, the ones with longer last_pinned_update timestamp at the topmost
             $table->timestamp('last_valid_bump_at');
-            $table->timestamp('last_edited_at');
+            $table->timestamp('updated_at');
 
             $table->boolean('is_locked')->default(false);
             $table->boolean('is_infinite')->default(false);
             $table->boolean('is_pinned')->default(false);
             $table->boolean('is_censored')->default(false);
-
         });
 
     }
