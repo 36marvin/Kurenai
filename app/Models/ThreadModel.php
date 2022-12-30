@@ -66,7 +66,7 @@ class ThreadModel extends PostModelParent
      *  coming first. 
      */
     private function getAllThreadsBoardIndex() {
-        $boardUri = request()->boardUri;
+        $boardUri = request()->route()->parameter('boardUri');
         $howManyThreadsPerPage = 10; // Todo: change this to fetch a number from a config table
         $pinnedThreads = $this->getPinnedThreadsBoardIndex($boardUri);
         $nonPinnedThreads = $this->getLatestNonPinnedThreads($boardUri);
