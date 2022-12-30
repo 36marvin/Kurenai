@@ -68,11 +68,17 @@ class BoardModel extends Model
      */
 
      public function getBoardConfig(): array {
-        $boardUri = request()->boardUri;
+        $boardUri = request()->route()->parameter('boardUri');
         $boardConfig = $this->select('board_uri', 'board_name', 'board_description')
                             ->where('board_uri', $boardUri)
                             ->first()
                             ->toArray();
         return $boardConfig;
+    }
+
+    public function getAllBoards (): array {
+        $allBoards = $this->get()
+                          ->toArray();
+        return $allBoards;
     }
 }

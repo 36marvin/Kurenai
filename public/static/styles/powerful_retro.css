@@ -241,7 +241,7 @@ li {
 
 .index-boardlist {
  list-style-type: none;
- width: max-content;
+ width: 80%;
  margin: 0 auto;
  padding: 0;
 }
