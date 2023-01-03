@@ -58,8 +58,9 @@ class BoardModel extends Model
         $this->save();
     }
 
-    public function deleteBoard($uri) {
-        
+    public function deleteBoard(Request $request) {
+        $this->where('id', $request->id)
+             ->delete();
     }
 
     /**

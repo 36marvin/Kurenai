@@ -45,8 +45,8 @@ class BoardController extends Controller // implements Iboard
         $this->boardModel->createBoard();
     }
 
-    public function deleteBoard ($boardUri) {
-        
+    public function deleteBoard (BoardModel $boardModel) {
+        $boardModel->deleteBoard();
     }
 
     public function updateBoardConfig ($options) {

@@ -16,6 +16,10 @@ use App\Http\Controllers\BoardController;
 |
 */
 
+    /////////////////////////////////////////////////////////////
+    ///////////////////   GET METHODS    ////////////////////////
+    /////////////////////////////////////////////////////////////
+
 Route::get('/', [IndexController::class, 'serveIndex']);
 
 Route::get('/{boardUri}', [BoardController::class, 'serveBoard']);
@@ -35,3 +39,9 @@ Route::get('/services/{service}', [PublicServicesController::class, 'servePublic
 
 // pages with simple text info (faq, rules, etc). These will be stored in a database
 Route::get('/info/{uri}', [InfoPageController::class, 'serveInfoPage']);
+
+    //////////////////////////////////////////////////////////////
+    ///////////////////   POST METHODS    ////////////////////////
+    //////////////////////////////////////////////////////////////
+
+Route::post('/forms/deleteboard', [BoardController::class, 'deleteBoard']);
