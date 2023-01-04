@@ -18,6 +18,7 @@ return new class extends Migration
             $table->uuid('user_id'); // author of the thread 
             $table->unsignedBigInteger('fuel_count')->default(0);
             $table->unsignedBigInteger('bump_count')->default(0);
+            $table->unsignedBigInteger('in_board_pseudo_id'); // threads and replies in a specific board are numbered in the order that they have been created: 1, 2, 3, ... 100, ... (this counter should be updated when the thread is moved)
 
             $table->string('title', 255);
             $table->string('body', 4000);
