@@ -22,6 +22,8 @@ use App\Http\Controllers\BoardController;
 
 Route::get('/', [IndexController::class, 'serveIndex']);
 
+Route::get('/publicService/createboard', [BoardController::class, 'serveCreateBoardPage']);
+
 Route::get('/{boardUri}', [BoardController::class, 'serveBoard']);
 
 Route::get('/{boardUri}/{threadId}', [ThreadController::class, 'serveThread']);

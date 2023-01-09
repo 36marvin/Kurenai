@@ -36,6 +36,10 @@ class BoardController extends Controller // implements Iboard
                                   ->with('boardConfig', $boardConfig);
     }
 
+    public function serveCreateBoardPage() {
+        return view('services.create-board');
+    }
+
     /**
      *  Where options are the name of the board, it's
      *  visibility config, description, uri, etc..
