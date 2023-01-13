@@ -19,7 +19,7 @@
 <div class="index-boardlist">
     @if(isset($boards))
     @foreach($boards as $board)
-    <a href="/{{ $board['board_uri'] }}" class="index-board-hyperlink">{{ $board['board_uri'] }}</a>
+    <a href="/board/{{ $board['board_uri'] }}" class="index-board-hyperlink">{{ $board['board_uri'] }}</a>
     @endforeach
     @else
     <a class="index-board-hyperlink">No boards featured</a>
@@ -31,7 +31,7 @@
 <ul class="index-thread-ul"> {{-- this is where "hot" threads are supposed to be --}}
     @if(isset($index['threads']))
     @foreach($index['threads'] as $thread)
-    <li><a href="/boards/{{ $thread['board'] }}/{{ $thread['id'] }}">{{ $thread['title'] }}.</a></li>
+    <li class="index__thread-li"><a href="/boards/{{ $thread['board_uri'] }}/{{ $thread['id'] }}">{{ $thread['title'] }}.</a></li>
     @endforeach
     @else
     <li style="color: grey;">No threads yet. Only the silence.</li>

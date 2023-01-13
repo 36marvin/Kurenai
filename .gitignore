@@ -16,3 +16,6 @@ yarn-error.log
 /.vscode
 other/*
 !other/readme.md
+public/static/img/404/*
+!public/static/img/404/default.gif
+!public/static/img/404/readme.md
