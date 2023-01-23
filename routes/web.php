@@ -5,6 +5,8 @@ use App\Http\Controllers;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\GlobalManageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +33,11 @@ Route::get('/', [IndexController::class, 'serveIndex']);
 
 Route::get('/error/{errorName}', [ErrorController::class, 'serveErrorPage']);
 
-Route::get('/publicservice/createboard', [BoardController::class, 'serveCreateBoardPage']);
+Route::get('/services/login', [UserController::class, 'serveLoginPage']);
+
+Route::get('/services/signup', [UserController::class, 'serveSignUpPage']);
+
+Route::get('/services/createboard', [BoardController::class, 'serveCreateBoardPage']);
 
 // Route::get('/manage/local/{boardUri}/dangerzone', [BoardController::class, 'serveLocalBoardManagementPageDangerZone']);
 
@@ -42,6 +48,10 @@ Route::get('/services/{service}', [PublicServicesController::class, 'servePublic
 
 // pages with simple text info (faq, rules, etc). These will be stored in a database
 Route::get('/info/{uri}', [InfoPageController::class, 'serveInfoPage']);
+
+Route::get('/global/manage/config', [GlobalManageController::class, 'serveGlobalManagementConfigPage']);
+
+Route::get('/global/manage', [GlobalManageController::class, 'serveGlobalManagementPage']);
 
 Route::get('/board/{boardUri}/manage/dangerzone', [BoardController::class, 'serveLocalBoardManagementPageDangerZone']);
 
