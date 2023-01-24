@@ -40,6 +40,16 @@ class BoardController extends Controller // implements Iboard
         return view('services.create-board');
     }
 
+    public function serveLocalBoardManagementPageDangerZone () {
+        $boardConfig = $this->boardModel->getBoardConfig();
+        return view('services.manage.local.delete-freeze-board')->with('boardConfig', $boardConfig);
+    }
+
+    public function serveLocalBoardManagementPage () {
+        $boardConfig = $this->boardModel->getBoardConfig();
+        return view('services.manage.local.index-management')->with('boardConfig',$boardConfig);
+    }
+
     /**
      *  Where options are the name of the board, it's
      *  visibility config, description, uri, etc..
@@ -49,8 +59,8 @@ class BoardController extends Controller // implements Iboard
         $this->boardModel->createBoard();
     }
 
-    public function deleteBoard (BoardModel $boardModel) {
-        $boardModel->deleteBoard();
+    public function deleteBoard ($uri) {
+        $this->boardModel->deleteBoard($uri);
     }
 
     public function updateBoardConfig ($options) {

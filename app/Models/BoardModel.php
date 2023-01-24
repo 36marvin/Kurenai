@@ -58,9 +58,12 @@ class BoardModel extends Model
         $this->save();
     }
 
-    public function deleteBoard(Request $request) {
-        $this->where('id', $request->id)
+    public function deleteBoard($uri) {
+        $self->where('board_uri', $uri)
              ->delete();
+        // $this->threadModel->where('board_uri', $boardUri)
+        //                   ->delete();
+        // and then delete the replies...
     }
 
     /**
@@ -70,7 +73,7 @@ class BoardModel extends Model
 
      public function getBoardConfig(): array {
         $boardUri = request()->route()->parameter('boardUri');
-        $boardConfig = $this->select('board_uri', 'board_name', 'board_description')
+        $boardConfig = $this->select('board_uri', 'board_name', 'board_description', 'is_frozen', 'is_secret')
                             ->where('board_uri', $boardUri)
                             ->first()
                             ->toArray();
@@ -81,5 +84,10 @@ class BoardModel extends Model
         $allBoards = $this->get()
                           ->toArray();
         return $allBoards;
+    }
+
+    public function checkIfBoardExists ($uri): bool {
+        return $this->where('board_uri', $uri)
+             ->exists();
     }
 }
