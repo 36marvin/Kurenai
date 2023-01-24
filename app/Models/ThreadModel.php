@@ -67,7 +67,7 @@ class ThreadModel extends PostModelParent
      */
     private function getAllThreadsBoardIndex() {
         $boardUri = request()->route()->parameter('boardUri');
-        $howManyThreadsPerPage = 10; // Todo: change this to fetch a number from a config table
+        $howManyThreadsPerPage = config('kurenai.global.boardConfig.boardIndexMaxRepliesPerThread', 10);
         $pinnedThreads = $this->getPinnedThreadsBoardIndex($boardUri);
         $nonPinnedThreads = $this->getLatestNonPinnedThreads($boardUri);
         $allThreads = $pinnedThreads->concat($nonPinnedThreads);
