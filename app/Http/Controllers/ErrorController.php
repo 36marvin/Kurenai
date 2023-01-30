@@ -7,13 +7,12 @@ use Illuminate\Http\Request;
 class ErrorController extends Controller
 {
     public function __construct () {
-        $this->errorList =
-        [
+        $this->errorList = [
         '404' => // page not found
                 [
                 'header' => '404 NOT FOUND',
                 'description' => 'You tried so hard, and got so far. In
-                                  the end, your resource wasn\'t really 
+                                  the end, your resource wasn\'t even 
                                   found'
                 ],
         '403' => // forbidden
@@ -41,9 +40,9 @@ class ErrorController extends Controller
             case '403':
                 return view('error.default-template')->with('errorMessage', $this->errorList['403']);
             case '500':
-                return view('error.default-template')->with('errorMessage', $this->errorList['403']);
+                return view('error.default-template')->with('errorMessage', $this->errorList['500']);
             default: // this happens when the user goes on example.com/error/anyNonExistingError
-                return view('error.default-template')->with('errorMessage', $this->errorList['404']);
+                return redirect('/error/404');
         };
     }
 }
