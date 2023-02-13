@@ -40,6 +40,7 @@ class BoardFactory extends Factory
     public function definition()
     {
         return [
+            // the id column is of type char(36), maybe this should be type-converted???
             'id' => fake()->randomNumber(5, true),
             // A 1 to 20 chars long alphanumeric string, without any instance of
             // two or more consecutive space chars, that always starts with a 

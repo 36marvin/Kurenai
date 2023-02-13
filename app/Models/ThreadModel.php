@@ -80,8 +80,10 @@ class ThreadModel extends PostModelParent
                                     ->select('threads.id', 'users.name as poster', 'threads.title', 'threads.created_at', 'threads.is_locked', 'threads.is_infinite', 'threads.is_pinned')
                                     ->paginate($howManyThreadsPerPage)
                                     ->toArray();
+        } else {
+            $allThreads = $allThreads->toArray();
         }
-        return $allThreads->toArray();
+        return $allThreads;
     }
 
     private function appendRepliesToThreads (array $threads) {
@@ -94,8 +96,8 @@ class ThreadModel extends PostModelParent
             $thread += ['replies' => array()];
             $replies = DB::table('replies')
                          ->leftJoin('users', 'replies.user_id', '=', 'users.id')
-                         ->select('replies.title', 'user.name as poster', 'replies.thread_id')
-                         ->where('replies.title', '!=', null)
+                         ->select('replies.reply_title', 'users.name as poster', 'replies.thread_id')
+                         ->where('replies.reply_title', '!=', null)
                          ->where('replies.thread_id', '=', $thread['id'])
                          ->limit($howManyRepliesPerThread)
                          ->get()

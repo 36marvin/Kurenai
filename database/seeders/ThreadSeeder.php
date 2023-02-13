@@ -18,10 +18,10 @@ class ThreadSeeder extends Seeder
         /**
          *  Make 10 threads that will be assigned to randonly-named
          *  boards that most likely don't exist ('vsddj', 'gtrvr', etc..). 
-         */
-        ThreadModel::factory()
-                  ->count(10)
-                  ->make();
+        */ 
+        // ThreadModel::factory()
+        //           ->count(10)
+        //           ->make();
 
         /**
          *  Make 10 threads that will be assigned to a specific board
@@ -30,6 +30,6 @@ class ThreadSeeder extends Seeder
         ThreadModel::factory()
                   ->sendToDesignatedTestingBoard()
                   ->count(10)
-                  ->make();
+                  ->create();
     }
 }

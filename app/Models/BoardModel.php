@@ -26,8 +26,8 @@ class BoardModel extends Model
 
     // protected $fillable = [];
 
-    public function __construct () {
-        $this->threadModel = App::make('App\Models\ThreadModel');
+    private function getThreadModel () {
+        return App::make('App\Models\ThreadModel'); 
     }
 
     protected static function newFactory() {
@@ -40,7 +40,7 @@ class BoardModel extends Model
      *  and does pagination automatically.
      */
     public function getThreadsForIndex () {
-        return $this->threadModel->getPaginatedBoardIndexThreadsWithReplies();
+        return $this->getThreadModel()->getPaginatedBoardIndexThreadsWithReplies();
     }
 
     public function updateBoard($uri) {
