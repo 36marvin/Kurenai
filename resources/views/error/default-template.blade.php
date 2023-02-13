@@ -7,7 +7,7 @@
     <title>{{ $errorMessage['header'] }}</title>
     @include('head.stylesheets')
 </head>
-<body class="body-flexbox-footer global__background-color">
+<body class="body-flexbox-footer body-background-theme">
     <div class="board-managament__index-container">
         <div class="board-managament__index-container__intro">{{ $errorMessage['header']}}</div>
         <div class="board-managament__index-container__body global-util__container-body-general">

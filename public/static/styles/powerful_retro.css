@@ -5,6 +5,10 @@ body {margin:0;}
    flex-direction: column;
 }
 
+.body-background-theme {
+ background-image: url(/static/styles/utils/powerful-retro-bc.png);
+}
+
 .box-vp {
    height: 100vh;
    width: 100vw; 
@@ -73,10 +77,8 @@ body {margin:0;}
 
 .lara {
    color: #f9363f;
-}
-
-.board {
-  color: #ffa9ae;
+   font-size: 1.3em;
+   text-decoration: none;
 }
 
 .global-navbar__intro {
@@ -104,7 +106,7 @@ body {margin:0;}
   padding: 0.7em 6em 1em 6em;
   background-color: #01020e;
   overflow-y: scroll;
-  color: white;  
+  color: white;
 /*  column-gap: 10em;
   column-count: 2;
   column-rule-style: solid; */
@@ -126,7 +128,7 @@ body {margin:0;}
 
 .board-separator {
   width: 30vw;
-  border-color: #86869d;
+  border-color: white;
   margin-top: 2em;
   margin-bottom: 2em;
 }
@@ -252,20 +254,34 @@ body {margin:0;}
 
 .index-board-hyperlink {
   width: fit-content;
-  color: white;
+  color: grey;
   background-color: #01020e;
-  display: inline;
-  margin-left: 1em;
   padding: 0.2em;
   font-weight: bold;
   font-size: 15px;
   border-radius: 5px;
+  display: inline-block;
+  margin: 0.2em 0.3em;
+  text-decoration: none;
+  border: 1px white solid;
 }
 
-.index-board-hyperlink:nth-child(odd) {
+.index-board-hyperlink:hover {
+  color: white;
+  background-color: #f01414;
+}
+
+.index-boards {
+  border: 1px solid white;
+  padding: 0.1em 0.5em;
+  background-color: #f01414;
+  font-weight: bold;
+}
+
+/* .index-board-hyperlink:nth-child(odd) {
   background-color: #f01414;
   color: white;
-}
+} */
 
 .index-board-hyperlink:nth-child(1) {
   margin: 0 !important;
@@ -284,6 +300,15 @@ body {margin:0;}
 
 .hottest-threads-wrapper {
   margin: 0 auto;
+}
+
+.thread-props {
+  height: 1em;
+  margin-right: 0.2em;
+}
+
+.thread-props:last-child {
+  margin-right: 0;
 }
 
 .box3-title {
@@ -318,6 +343,64 @@ body {margin:0;}
   height: 100%;
 }
 
+.user-auth-containter {
+  display: flex; 
+  flex-direction:row;
+  height: fit-content;
+  color: white;
+}
+
+.user-auth-containter:nth-child(2) {
+  margin-top: 0.5em;
+}
+
+
+.user-auth-label {
+  border-width: 1px 0 1px 1px;
+  border-color: black;
+  border-style:solid;
+  background-color: #f01414;
+  padding: 0.2em 0.3em;
+  border-radius: 5px 0 0 5px;
+}
+
+.user-auth-input {
+  border: 1px black solid;
+  background-color: grey;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  font-weight: bold;
+  width: 100%;
+  padding-left: 0.5em;
+}
+
+.board-header {
+  width: 50%;
+  margin: 0 auto;
+  background-color: #2f2934;
+  border: solid 1px black;
+  border-radius: 5px;
+  padding: 0.5em;
+  color: white;
+}
+
+.board-name {
+  margin-bottom: 1em;
+}
+
+.board-name b {
+  color: #f9363f;
+  text-shadow: 2px 2px 2px black;
+}
+
+.board-description {
+  overflow-wrap: break-word;
+}
+
+.text-align-center{
+  text-align: center;
+}
+
 .index-booru__table {
   width: 50vw;
   border: 1px solid white;
@@ -325,6 +408,7 @@ body {margin:0;}
   color: white;
   padding: 0;
   margin: 2em auto 0 auto;
+  border-spacing: 0;
 }
 
 .index-booru-table__header {
@@ -349,6 +433,10 @@ body {margin:0;}
 
 .global-navbar {
   border-collapse: collapse;
+  background-color: #262525;
+  border-width: 0 0 1px 0;
+  border-color: #595959;
+  border-style: solid;
 }
 
 .global-navbar__td {
@@ -374,6 +462,7 @@ body {margin:0;}
   background-color: #f01414;
   font-weight: bold;
   text-align: center;
+  border-radius: 5px 5px 0 0; /* todo, fix this workaround */
 }
 
 .global-user-ops {
@@ -382,6 +471,11 @@ body {margin:0;}
   border-width: 0 1px 0 1px; 
   color: white;
   padding: 0.3em;
+}
+
+.global-user-ops a {
+  color: white;
+  text-decoration: none;
 }
 
 .global-user-ops__wrapper {
@@ -428,6 +522,7 @@ body {margin:0;}
   width: fit-content;
   margin: 0 auto;
   border: 1px solid white;
+  border-radius: 5px 5px 0 0;
 }
 
 .create-board__container {
@@ -502,6 +597,7 @@ body {margin:0;}
   width: fit-content;
   margin: 4em auto 0 auto;
   max-width: 60%;
+  box-shadow: 5px 5px 5px black;
 }
 
 .board-managament__index-container__body {
@@ -545,4 +641,62 @@ body {margin:0;}
   display: block;
   margin: 0 auto 1em auto;
   max-width: 80%;
+}
+
+.thread-container {
+  display: flex;
+  background-color: #f9363f;
+  width: auto;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0 0 1em 2em;
+  padding: 0 0.5em 0 1em;
+}
+
+.thread-container:last-child {
+  margin: 0 0 0 2em;
+}
+
+.thread-index-container{
+  background-color: #2f2934;
+  width: 80%;
+  margin: 2em auto;
+  border: solid white 2px;
+  border-radius: 5px;
+  padding: 2em;
+}
+
+.thread-props-container {
+  display:flex;
+}
+
+.thread-hiperlink {
+  color: #dbdbdb;
+  margin-right: auto;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.thread-date {
+  margin-right: 0.5em;
+}
+
+.no-threads-warning {
+  margin: 0 auto;
+  color: #b9b9b9;
+  font-weight: bold;
+  width: fit-content;
+}
+
+.thread-list-hr {
+  color: white;
+  width: 60%;
+  margin-bottom: 2em;
+}
+
+.thread-list-intro {
+  margin: 0 auto;
+  width: fit-content;
+  color: white;
+  font-weight: bold;
 }
