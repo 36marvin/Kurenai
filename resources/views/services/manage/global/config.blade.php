@@ -7,10 +7,11 @@
     <title>Configure the forum</title>
     @include('head.stylesheets')
 </head>
-<body class="global__background-color body-flexbox-footer">
+<body class="global__background-color body-flexbox-footer body-background-theme">
     <div class="create-board__container">
         <div class="create-board__intro global__container_color-intro">General forum config</div>
-        <form action="postmethods/global/manage/setgeneralconfig" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
+        <form action="/forms/globalManage/setGeneralConfig/" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
+        @csrf
         <table class="create-board__form-table">
             <tr>
                 <td><label for="userName">Forum name</label></td>
@@ -42,6 +43,7 @@
     <div class="create-board__container">
         <div class="create-board__intro global__container_color-intro">Global post configuration</div>
         <form action="postmethods/global/manage/setpostconfig" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
+        @csrf
         <table class="create-board__form-table">
             <tr>
                 <td><label for="userName">Minimum user age for thread creation</label></td>
@@ -66,7 +68,7 @@
             @foreach(config('kurenai.postConfig.allowedMedia') as $key => $media)
             <tr>
                 <td><label for="{{ $key }}">{{ $key }}</label></td>
-                <td><input autocomplete="off" type="checkbox" {{ $media ? 'checked' : '' }} name="{{ $key }}" required id="{{ $key }}"></td>
+                <td><input autocomplete="off" type="checkbox" value="true" {{ $media ? 'checked' : '' }} name="{{ $key }}" required id="{{ $key }}"></td>
             </tr>
             @endforeach
         </table>
@@ -77,10 +79,11 @@
     <div class="create-board__container">
         <div class="create-board__intro global__container_color-intro">Global board configuration</div>
         <form action="postmethods/global/manage/setboardconfig" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
+        @csrf
         <table class="create-board__form-table">
             <tr>
                 <td><label for="userName">Maximum number of replies to thread at board index</label></td>
-                <td><input autocomplete="off" value="{{ config('kurenai.boardConfig.boardIndexMaxRepliesPerThread') }}" type="number" value="{{ config('kurenai.siteName') }}" name="siteName" required id="siteName"></td>
+                <td><input autocomplete="off" value="{{ config('kurenai.boardConfig.boardIndexMaxRepliesPerThread') }}" type="number" value="{{ config('kurenai.siteName') }}" name="boardIndexMaxRepliesPerThread" required id="siteName"></td>
             </tr>
             <tr>
                 <td><label for="userPassword">Allow users to create boards</label></td>
