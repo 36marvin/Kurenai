@@ -61,13 +61,24 @@ Route::get('/board/{boardUri}', [BoardController::class, 'serveBoard']);
 
 Route::get('/board/{boardUri}/{threadId}', [ThreadController::class, 'serveThread']);
 
-Route::redirect('/{catchall}', '/error/404')->where('catchall', '.*'); // no idea if this will work
-
-// 404, if all routes above didn't match the request's desired resource
-// Route::get('/{catchall}', [ErrorController::class, 'serveNotFoundPage'])->where('catchall', '.*');
-
     //////////////////////////////////////////////////////////////
     ///////////////////   POST METHODS    ////////////////////////
     //////////////////////////////////////////////////////////////
 
+Route::post('/forms/login/', [UserController::class, 'giveTokenCookie']);
+
+Route::post('/forms/signup/', [UserController::class, 'makeUser']);
+
 Route::post('/forms/deleteboard/{uri}', [BoardController::class, 'deleteBoard']);
+
+Route::post('/forms/globalManage/setGeneralConfig/', [GlobalManageController::class, 'setKurenaiGeneralConfig']);
+
+Route::post('/forms/globalManage/setPostConfig/', [GlobalManageController::class, 'setKurenaiPostConfig']);
+
+Route::post('/forms/globalManage/setBoardConfig/', [GlobalManageController::class, 'setKurenaiBoardConfig']);
+
+    //////////////////////////////////////////////////////////////
+    ///////////////////   OTHER METHODS    ///////////////////////
+    //////////////////////////////////////////////////////////////
+
+Route::redirect('/{catchall}', '/error/404')->where('catchall', '.*'); // no idea if this will work
