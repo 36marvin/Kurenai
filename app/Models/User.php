@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use App\Models\User as UserModel;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -27,8 +32,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'id',
         'email',
         'password',
+        'badge_id'
     ];
 
     /**
@@ -52,11 +59,61 @@ class User extends Authenticatable
 
     protected $badgeID;
 
-    function getUserByToken ($token) {
+    function getUserByToken($token)
+    {
         
     }
 
-    function getRole ($userId) {
+    function getRole($userId)
+    {
 
+    }
+
+    public function signUp($request)
+    {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email ?? null,
+            'password' => Hash::make($request->password),
+            'id' => (string)Str::uuid(),
+            'badge_id' => null,
+        ]);
+
+        // event(new Registered($user));
+
+        // Auth::login($user);
+
+        return redirect('/');
+    }
+
+    public function login($request, $errorController) 
+    {
+        if (Auth::attempt([
+            'email' => $request->email ?? null,
+            'password' => $request->password,
+            'name' => $request->name
+          ])
+        ) {
+        $request->session()->regenerate();
+
+        return redirect('/');
+        }
+
+        return $errorController->customError(
+        'Bad credentials', 
+        'This combination of username and password do not match any existing user record. 
+        Odds are you just typed something wrong.'
+        );
+    }
+
+    public function logOut($request)
+    {
+        Auth::logout();
+ 
+        $request->session()->invalidate();
+     
+        $request->session()->regenerateToken();
+     
+        return redirect('/');
     }
 }

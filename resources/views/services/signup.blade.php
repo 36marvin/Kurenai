@@ -11,14 +11,18 @@
     <div class="create-board__container">
         @if(config('kurenai.userCreationRules.isOpen'))
         <div class="create-board__intro global__container_color-intro">Sign up</div>
-        <form action="postmethods/newuser" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
+        <form action="/forms/signup/" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
             <div class="user-auth-containter">
                 <label class="user-auth-label">username</label>
-                <input type="text" name="userName" required autocomplete="off" class="user-auth-input">
+                <input type="text" name="name" required autocomplete="off" class="user-auth-input">
             </div>
             <div class="user-auth-containter">
                 <label class="user-auth-label">password</label>
-                <input type="password" pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,}$/g" name="userPassword" required autocomplete="off" class="user-auth-input">
+                <input type="password" name="password" required autocomplete="off" class="user-auth-input">
+            </div>
+            <div class="user-auth-containter">
+                <label class="user-auth-label">email (optional)</label>
+                <input type="email" name="email" class="user-auth-input">
             </div>
             @csrf
             <input type="submit" value="create user" class="create-boards__submit-btn">

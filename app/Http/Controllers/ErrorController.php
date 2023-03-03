@@ -45,4 +45,12 @@ class ErrorController extends Controller
                 return redirect('/error/404');
         };
     }
+
+    public function customError($header, $description) {
+        $errorMessage = [
+            'header' => $header,
+            'description' => $description
+        ];
+        return view('error.default-template')->with($errorMessage);
+    }
 }

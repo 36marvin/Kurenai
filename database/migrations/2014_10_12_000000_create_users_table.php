@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->string('name', 20);
-            $table->string('email', 320);
+            $table->uuid('id')->unique()->primary();
+            $table->string('name', 40)->unique();
+            $table->string('email', 320)->unique()->nullable();
             $table->string('password', 200); // the hash may be much longer than the original password 
-            $table->string('badge_id'); // if any, foreign key
+            $table->foreign('badge_id')->references('id')->on('badges')->nullable(); // todo: set as foreign key
             $table->rememberToken();
             $table->timestamps();
         });

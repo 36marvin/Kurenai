@@ -5,7 +5,7 @@ use App\Http\Controllers;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ErrorController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\User as UserController;
 use App\Http\Controllers\GlobalManageController;
 
 /*
@@ -65,9 +65,13 @@ Route::get('/board/{boardUri}/{threadId}', [ThreadController::class, 'serveThrea
     ///////////////////   POST METHODS    ////////////////////////
     //////////////////////////////////////////////////////////////
 
-Route::post('/forms/login/', [UserController::class, 'giveTokenCookie']);
+Route::post('/forms/login/', [UserController::class, 'login']);
 
-Route::post('/forms/signup/', [UserController::class, 'makeUser']);
+Route::post('/forms/logout/', [UserController::class, 'logOut']);
+
+Route::post('/forms/signup/', [UserController::class, 'signUp']);
+
+Route::post('/forms/newthread/', [UserController::class, 'newThread']);
 
 Route::post('/forms/deleteboard/{uri}', [BoardController::class, 'deleteBoard']);
 
@@ -81,4 +85,4 @@ Route::post('/forms/globalManage/setBoardConfig/', [GlobalManageController::clas
     ///////////////////   OTHER METHODS    ///////////////////////
     //////////////////////////////////////////////////////////////
 
-Route::redirect('/{catchall}', '/error/404')->where('catchall', '.*'); // no idea if this will work
+Route::redirect('/{catchall}', '/error/404')->where('catchall', '.*');

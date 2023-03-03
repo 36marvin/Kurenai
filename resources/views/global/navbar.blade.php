@@ -6,8 +6,15 @@
   <td class="useful-pages global-navbar__td">
   <div class="global-user-ops__wrapper">
     @if(!Auth::check())
-    <div class="global-user-ops"><a href="/services/login" class="user-ops-link">LOGIN</a></div>
-    <div class="global-user-ops"><a href="/services/signup" class="user-ops-link">SIGN UP</a></div>
+    <a href="/services/login" class="user-ops-link">LOGIN</a>
+    <a href="/services/signup" class="user-ops-link">SIGN UP</a>
+    @else
+    <span class="global-user-ops global-user-ops-item">Hiyah,</span>
+    <span class="global-user-ops global-user-ops-item">{{ Auth::User()->name }}.</span>
+    <form  class="global-user-ops-item" method="post" action="/forms/logout/">
+      @csrf
+      <input class="global-user-ops global-user-ops-logout" type="submit" value="log out"> 
+    </form>
     @endif
   </div>
   </td>
