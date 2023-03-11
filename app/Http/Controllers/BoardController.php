@@ -28,7 +28,8 @@ class BoardController extends Controller // implements Iboard
         $this->boardModel = $boardModel;
     }
 
-    public function serveBoard () { // this is not going to last, we need a view composer
+    public function serveBoard () // this is not going to last, we need a view composer
+    {
         $threads = $this->boardModel->getThreadsForIndex();
         $boardConfig = $this->boardModel->getBoardConfig();
 
@@ -36,8 +37,17 @@ class BoardController extends Controller // implements Iboard
                                   ->with('boardConfig', $boardConfig);
     }
 
-    public function serveCreateBoardPage() {
+    public function serveCreateBoardPage()
+    {
         return view('services.create-board');
+    }
+
+    public function serveBoardListPage()
+    {
+        $boardListArray = $this->boardModel->getAllBoardsPaginated();
+        $boardCounts = $this->boardModel->getBoardCounts();
+        return view('services.board-list')->with('boardListArray', $boardListArray)
+                                          ->with('boardCounts', $boardCounts);
     }
 
     public function serveLocalBoardManagementPageDangerZone () {

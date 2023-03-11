@@ -48,7 +48,7 @@ class BoardModel extends Model
     }
 
     public function createBoard(Request $request) {
-        $this->insert([
+        $this->create([
             'board_name' => $request->boardName,
             'board_uri' => $request->boardUri,
             'board_description' => $request->boardDescription,
@@ -84,6 +84,43 @@ class BoardModel extends Model
         $allBoards = $this->get()
                           ->toArray();
         return $allBoards;
+    }
+
+    public function getAllBoardsPaginated()
+    {
+        return $this->paginate(50)
+                    ->toArray();
+    }
+
+    /**
+     *  Returns an array with numbers of boards by category 
+     *  (secret, frozen, non-frozen, etc).
+     *  
+     *  Todo: except for the allBoards and staffBoards keys, staff
+     *  boards are NOT included in the count.
+     */
+
+    public function getBoardCounts(): array {
+        $allBoards = $this->count();
+
+        // $staffBoards = $this->where('isGlobalStaffOnly', true)->count();
+        // $nonStaffBoards = $allBoards - $staffBoards;
+
+        $secretBoards = $this->where('is_secret', true)->count();
+        $nonSecretBoards = $allBoards - $secretBoards;
+
+        $frozenBoards = $this->where('is_frozen', true)->count();
+        $nonFrozenBoards = $allBoards - $frozenBoards;
+
+        return [
+            'allBoards' => $allBoards,
+            // 'staffBoards' => $staffBoards,
+            // 'nonStaffBoards' => $nonStaffBoards, 
+            'secretBoards' => $secretBoards,
+            'nonSecretBoards' => $nonSecretBoards, 
+            'frozenBoards' => $frozenBoards,
+            'nonFrozenBoards' => $nonFrozenBoards,
+        ];
     }
 
     public function checkIfBoardExists ($uri): bool {
