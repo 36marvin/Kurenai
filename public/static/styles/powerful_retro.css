@@ -653,9 +653,9 @@ body {margin:0;}
 
 .thread-container {
   display: flex;
-  background-color: var(--color-non-dominant);
+  background-color: #6c5f60;
   width: auto;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-radius: 5px;
   margin: 0 0 1em 2em;
   padding: 0 0.5em 0 1em;
@@ -672,9 +672,10 @@ body {margin:0;}
 
 .index-container-basic {
   background-color: #2f2934;
-  border: solid white 2px;
+  border: solid white 1px;
   border-radius: 5px;
   padding: 2em;
+  box-shadow: 1em 1em 30px black;
 }
 
 .thread-props-container {
@@ -690,6 +691,7 @@ body {margin:0;}
 
 .thread-date {
   margin-right: 0.5em;
+  color: white;
 }
 
 .no-threads-warning {
@@ -734,7 +736,7 @@ body {margin:0;}
 }
 
 .thread-post-form-wrapper {
-  border: solid white 2px;
+  border: solid white 1px;
   width: fit-content;
   margin: 2em auto 0 auto;
   padding: 1em;
@@ -776,19 +778,19 @@ body {margin:0;}
   color: var(--color-non-dominant);
 }
 
-.boardlist-table {
+.generic-table-one {
   table-layout:fixed;
   border-collapse: collapse;
   margin-bottom: 1em;
 }
 
-.boardlist-tr > td {
+.generic-table-one__tr > td {
   text-align: center;
   border: 1px white solid;
   padding: 1em;
 }
 
-.boardlist-tr > th {
+.generic-table-one__tr > th {
   border: 1px white solid;
   background-color: grey;
   color: white;
@@ -839,7 +841,7 @@ body {margin:0;}
   margin: 0 auto;
 }
 
-.global-util_info-box {
+.global-util__info-box {
   color: white;
   border: 1px solid black;
   width: fit-content;
@@ -852,4 +854,25 @@ body {margin:0;}
   display: flex;
   flex-direction: row;
   margin-left: 1em;
+}
+
+.board-index__stats {
+  padding: 0.5em 1em;
+  margin-bottom: 2em;
+}
+
+.extra-horizontal-padding-table {
+  padding: 0 0.3em;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+.hover-info {
+  cursor: help
+}
+
+.thread-hiperlink :visited{
+  color: var(--color-non-dominant)
 }

@@ -73,7 +73,7 @@ class BoardModel extends Model
 
      public function getBoardConfig(): array {
         $boardUri = request()->route()->parameter('boardUri');
-        $boardConfig = $this->select('board_uri', 'board_name', 'board_description', 'is_frozen', 'is_secret')
+        $boardConfig = $this->select('board_uri', 'board_name', 'created_at', 'board_description', 'is_frozen', 'is_secret')
                             ->where('board_uri', $boardUri)
                             ->first()
                             ->toArray();
@@ -88,6 +88,7 @@ class BoardModel extends Model
 
     public function getAllBoardsPaginated()
     {
+        // this argument will make Docker's php process glitch if changed to some other values (eg 20)
         return $this->paginate(50)
                     ->toArray();
     }
