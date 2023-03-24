@@ -10,7 +10,7 @@
 <body class="global__background-color body-flexbox-footer body-background-theme">
     <div class="create-board__container">
         @if(config('kurenai.userCreationRules.isOpen'))
-        <div class="create-board__intro global__container_color-intro">Sign up</div>
+        <div class="create-board__intro global__container_color-intro">User Maker</div>
         <form action="/forms/signup/" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
             <div class="user-auth-containter">
                 <label class="user-auth-label">username</label>
