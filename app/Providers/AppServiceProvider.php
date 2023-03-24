@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+// use Illuminate\Database\Eloquent\Model;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        // Throws an error when an Eloquent model rejects an attribute
+        // because it was not fillable. Does not work in production. 
+        // Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
     }
 }
