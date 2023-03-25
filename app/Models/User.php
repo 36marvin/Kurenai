@@ -98,12 +98,6 @@ class User extends Authenticatable
 
         return redirect('/');
         }
-
-        return $errorController->customError(
-        'Bad credentials', 
-        'This combination of username and password do not match any existing user record. 
-        Odds are you just typed something wrong.'
-        );
     }
 
     public function logOut($request)

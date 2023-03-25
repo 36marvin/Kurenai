@@ -764,10 +764,15 @@ body {margin:0;}
   flex-direction: row;
 }
 
-.global-user-ops-logout{
+.global-user-ops-logout {
   background-color: transparent;
   border: none;
   font-size: 1em;
   padding: 0;
   color:#f9363f;
+}
+
+.global-util__simpleError {
+  margin-top: 0.5em;
+  color: #f9363f;
 }

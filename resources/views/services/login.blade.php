@@ -20,6 +20,9 @@
                 <input name="password" type="password" class="user-auth-input">
             </div>
             @csrf
+            @if(request()->query('badCreds') !== null)
+            <div class="global-util__simpleError">Error: incorrect user credentials. Please try again.</div>
+            @endif
         <input type="submit" value="log in" class="create-boards__submit-btn">
         </form>
     </div>
