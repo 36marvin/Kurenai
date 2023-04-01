@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Database\Factories\BoardFactory;
 use App\Models\ThreadModel;
+use App\Models\User as UserModel;
 
 class BoardModel extends Model
 {
@@ -25,6 +27,11 @@ class BoardModel extends Model
     protected $keyType = 'string';
 
     // protected $fillable = [];
+
+    public function __construct() 
+    {
+        $this->userModel = new UserModel;
+    }
 
     private function getThreadModel () {
         return App::make('App\Models\ThreadModel'); 
@@ -86,11 +93,20 @@ class BoardModel extends Model
         return $allBoards;
     }
 
+    /**
+     *  This is for the boardlist.
+     */
     public function getAllBoardsPaginated()
     {
-        // this argument will make Docker's php process glitch if changed to some other values (eg 20)
-        return $this->paginate(50)
-                    ->toArray();
+        // paginate()'s argument will make Docker's php process glitch if changed to some other values (eg 20)
+        // return $this->paginate(50)
+                    // ->toArray();
+        if (Auth::check() && $this->userModel->isGlobalStaffer(Auth::id())) {
+            return $this->paginate(50);
+        } else {
+            return $this->where('is_secret', false)
+                        ->paginate(50);
+        }
     }
 
     /**

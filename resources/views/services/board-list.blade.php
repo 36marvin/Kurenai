@@ -16,26 +16,26 @@
             <tr class="generic-table-one__tr">
                 <th>Name</th>
                 <th class="boardlist-description-th">Description</th>
-                <th class="hover-info" title="Posts per day (in the last week).">ppd</th>
-                <th class="hover-info" title="Posts per week (in the last three weeks).">ppw</th>
+                <th class="hover-info" title="Posts per day (in the last week).">ppd <span class="global__info-symbol--black" title="posts per day">ⓘ</span></th>
+                <th class="hover-info" title="Posts per week (in the last three weeks).">ppw<span class="global__info-symbol--black" title="posts per week">ⓘ</span></th>
             {{--@if(Auth::isGlobalStaffer)
                 <th class="extra-horizontal-padding-table">Is Secret</th>
                 @endif
             --}}
             </tr>
-            @foreach($boardListArray['data'] as $board)
-            @if($board['is_secret'] /* && !isGlobalStaffer() */)
+            @foreach($boardList->items() as $board)
+            @if($board->is_secret /* && !isGlobalStaffer() */)
                 @continue
             @endif
             <tr class="generic-table-one__tr">
                 <td class="boardlist-name">
                     <a class="default-hyperlink wordbreak-breakall {{$board['is_frozen'] ? 'strikethrough' : ''}}" }} href="/board/{{ $board['board_uri'] }}">{{ $board['board_name'] }}</a>
                 </td>
-                <td class="boardlist-description">{{ $board['board_description'] }}</td>
+                <td class="boardlist-description">{{ $board->board_description }}</td>
                 <td>n/a</td>
                 <td>n/a</td>
             {{--@if(Auth::isGlobalStaffer)
-                <td>@if($board['is_secret'])
+                <td>@if($board->is_secret)
                         yes
                     @else <!-- ternay operator is not working due to a Blade bug -->
                         no
@@ -46,17 +46,19 @@
             </tr>
             @endforeach
             </table>
+            @if($boardList->hasPages())
             <div class="boardlist__pages">
             <span>pages:</span>
             <ul class="boardlist__li">
-            @for($i = 1; $i < $boardListArray['last_page']; $i = 0)
+            @for($i = 1; $i < $boardList->last_page; $i = 0)
             <li><a href='?page={{$i}}'>{{$i}}</a></li>
             @endfor
             </ul>
             </div>
+            @endif
         </div>
         <div class="global-util__info-box create-board__form-element">
-            <p>Total boards: {{ $boardListArray['total'] }} ({{ $boardCounts['nonSecretBoards']}} public, {{ $boardCounts['secretBoards'] }} secret).</p>
+            <p>Total boards: {{ $boardList->total() }} ({{ $boardCounts['nonSecretBoards']}} public, {{ $boardCounts['secretBoards'] }} secret).</p>
             <p>You will not be able to see secret boards unless you are a global staffer.</p>
         </div>
     </div>

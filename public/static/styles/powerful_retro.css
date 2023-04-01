@@ -596,6 +596,10 @@ body {margin:0;}
   color: var(--color-non-dominant);
 }
 
+.global__info-symbol--black {
+  color: #000
+}
+
 .global-util__container-body-general {
   background-color: #2b2431;
   color: white;
@@ -781,7 +785,6 @@ body {margin:0;}
 .generic-table-one {
   table-layout:fixed;
   border-collapse: collapse;
-  margin-bottom: 1em;
 }
 
 .generic-table-one__tr > td {

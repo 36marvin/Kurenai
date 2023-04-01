@@ -44,9 +44,9 @@ class BoardController extends Controller // implements Iboard
 
     public function serveBoardListPage()
     {
-        $boardListArray = $this->boardModel->getAllBoardsPaginated();
+        $boardList = $this->boardModel->getAllBoardsPaginated();
         $boardCounts = $this->boardModel->getBoardCounts();
-        return view('services.board-list')->with('boardListArray', $boardListArray)
+        return view('services.board-list')->with('boardList', $boardList)
                                           ->with('boardCounts', $boardCounts);
     }
 
