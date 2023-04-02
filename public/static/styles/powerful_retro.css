@@ -790,7 +790,7 @@ body {margin:0;}
 .generic-table-one__tr > td {
   text-align: center;
   border: 1px white solid;
-  padding: 1em;
+  padding: 0.5em;
 }
 
 .generic-table-one__tr > th {
