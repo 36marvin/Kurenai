@@ -8,6 +8,7 @@
     @include('head.stylesheets')
 </head>
 <body class="global__background-color body-flexbox-footer body-background-theme">
+@include('global.navbar')
     <div class="create-board__container">
         @if(config('kurenai.userCreationRules.isOpen'))
         <div class="create-board__intro global__container_color-intro">User Maker</div>

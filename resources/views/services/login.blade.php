@@ -8,6 +8,7 @@
     @include('head.stylesheets')
 </head>
 <body class="global__background-color body-flexbox-footer body-background-theme">
+@include('global.navbar')
     <div class="create-board__container">
         <div class="create-board__intro global__container_color-intro">Log in</div>
         <form action="/forms/login" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
