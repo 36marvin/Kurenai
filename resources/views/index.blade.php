@@ -19,6 +19,7 @@
 <div class="index-boardlist">
     @if(isset($boards)) {{-- glue the foreach's together to avoid html whitespace between inline elements --}}
     @foreach($boards as $board)<a href="/board/{{ $board['board_uri'] }}" class="index-board-hyperlink">{{ $board['board_uri'] }}</a>@endforeach
+    <a href="/services/boardlist" class="index-board-hyperlink last-board-a">See all boards w/ details</a>
     @else
     <a class="index-board-hyperlink">No boards featured</a>
     @endif

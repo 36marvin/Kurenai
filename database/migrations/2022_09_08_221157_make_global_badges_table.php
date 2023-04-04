@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('global_badges', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->unique();
+            $table->uuid('id')->unique();
             $table->unsignedBigInteger('user_id'); 
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->boolean('aux_manager');
             $table->boolean('aux_manager2');
             $table->boolean('admin');
+            $table->boolean('dev');
         });
     }
 

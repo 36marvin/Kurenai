@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User as UserModel;
 use Illuminate\Support\Facades\Auth;
+use App\Models\GlobalBadgesModel;
 
 class User extends Authenticatable
 {
@@ -58,6 +59,10 @@ class User extends Authenticatable
     ];
 
     protected $badgeID;
+
+    public function __construct() {
+        $this->globalBadgesModel = new GlobalBadgesModel;
+    }
 
     function getUserByToken($token)
     {
@@ -109,5 +114,14 @@ class User extends Authenticatable
         $request->session()->regenerateToken();
      
         return redirect('/');
+    }
+
+    /**
+     *  Checks if the user has a global badge 
+     *  with any permission set to positive.
+     */
+    public function isGlobalStaffer(string $userid) 
+    {
+        return $this->globalBadgesModel->checkIfExists($userID);
     }
 }

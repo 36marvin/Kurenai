@@ -39,6 +39,8 @@ Route::get('/services/signup', [UserController::class, 'serveSignUpPage']);
 
 Route::get('/services/createboard', [BoardController::class, 'serveCreateBoardPage']);
 
+Route::get('/services/boardlist', [BoardController::class, 'serveBoardListPage']);
+
 // Route::get('/manage/local/{boardUri}/dangerzone', [BoardController::class, 'serveLocalBoardManagementPageDangerZone']);
 
 // Route::get('/manage/local/{boardUri}', [BoardController::class, 'serveLocalBoardManagementPage']);

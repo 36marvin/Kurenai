@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Database\Factories\BoardFactory;
 use App\Models\ThreadModel;
+use App\Models\User as UserModel;
 
 class BoardModel extends Model
 {
@@ -30,6 +32,10 @@ class BoardModel extends Model
         return App::make('App\Models\ThreadModel'); 
     }
 
+    private function getUserModel () {
+        return App::make('App\Models\UserModel'); 
+    }
+
     protected static function newFactory() {
         return BoardFactory::new();
     }
@@ -48,7 +54,7 @@ class BoardModel extends Model
     }
 
     public function createBoard(Request $request) {
-        $this->insert([
+        $this->create([
             'board_name' => $request->boardName,
             'board_uri' => $request->boardUri,
             'board_description' => $request->boardDescription,
@@ -73,7 +79,7 @@ class BoardModel extends Model
 
      public function getBoardConfig(): array {
         $boardUri = request()->route()->parameter('boardUri');
-        $boardConfig = $this->select('board_uri', 'board_name', 'board_description', 'is_frozen', 'is_secret')
+        $boardConfig = $this->select('board_uri', 'board_name', 'created_at', 'board_description', 'is_frozen', 'is_secret')
                             ->where('board_uri', $boardUri)
                             ->first()
                             ->toArray();
@@ -84,6 +90,53 @@ class BoardModel extends Model
         $allBoards = $this->get()
                           ->toArray();
         return $allBoards;
+    }
+
+    /**
+     *  This is for the boardlist.
+     */
+    public function getAllBoardsPaginated()
+    {
+        // paginate()'s argument will make Docker's php process glitch if changed to some other values (eg 20)
+        // return $this->paginate(50)
+                    // ->toArray();
+        if (Auth::check() && $this->getUserModel()->isGlobalStaffer(Auth::id())) {
+            return $this->paginate(50);
+        } else {
+            return $this->where('is_secret', false)
+                        ->paginate(50);
+        }
+    }
+
+    /**
+     *  Returns an array with numbers of boards by category 
+     *  (secret, frozen, non-frozen, etc).
+     *  
+     *  Todo: except for the allBoards and staffBoards keys, staff
+     *  boards are NOT included in the count.
+     */
+
+    public function getBoardCounts(): array {
+        $allBoards = $this->count();
+
+        // $staffBoards = $this->where('isGlobalStaffOnly', true)->count();
+        // $nonStaffBoards = $allBoards - $staffBoards;
+
+        $secretBoards = $this->where('is_secret', true)->count();
+        $nonSecretBoards = $allBoards - $secretBoards;
+
+        $frozenBoards = $this->where('is_frozen', true)->count();
+        $nonFrozenBoards = $allBoards - $frozenBoards;
+
+        return [
+            'allBoards' => $allBoards,
+            // 'staffBoards' => $staffBoards,
+            // 'nonStaffBoards' => $nonStaffBoards, 
+            'secretBoards' => $secretBoards,
+            'nonSecretBoards' => $nonSecretBoards, 
+            'frozenBoards' => $frozenBoards,
+            'nonFrozenBoards' => $nonFrozenBoards,
+        ];
     }
 
     public function checkIfBoardExists ($uri): bool {
