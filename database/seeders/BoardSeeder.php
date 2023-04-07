@@ -16,10 +16,9 @@ class BoardSeeder extends Seeder
      */
     public function run()
     {
-        // Makes 10 public and non frozen boards
+        // Makes 110 public and non frozen boards
         BoardModel::factory()
-                //   ->has(ThreadModel::factory()->count(3), 'threads')
-                  ->count(10)
+                  ->count(110)
                   ->create();
 
         // Makes 10 public and frozen boards
