@@ -60,10 +60,10 @@ class User extends Authenticatable
 
     protected $badgeID;
 
-    public function __construct() {
-        $this->globalBadgesModel = new GlobalBadgesModel;
+    public function getGlobalBadgesModel() {
+        return App::make(UserModel::class); 
     }
-
+    
     function getUserByToken($token)
     {
         
@@ -120,8 +120,8 @@ class User extends Authenticatable
      *  Checks if the user has a global badge 
      *  with any permission set to positive.
      */
-    public function isGlobalStaffer(string $userid) 
+    public function isGlobalStaffer(string $userId) 
     {
-        return $this->globalBadgesModel->checkIfExists($userID);
+        return $this->getGlobalBadgesModel->checkIfValidBadgeExists($userId);
     }
 }

@@ -15,7 +15,7 @@
 @include('global.warnings')
 @include('global.navbar')
 <img src="a.jpg" class="global-banner">
-<div class="index-boards">Featured boards:</div>
+<div class="index-boards global-util__button">Featured boards:</div>
 <div class="index-boardlist">
     @if(isset($boards)) {{-- glue the foreach's together to avoid html whitespace between inline elements --}}
     @foreach($boards as $board)<a href="/board/{{ $board['board_uri'] }}" class="index-board-hyperlink">{{ $board['board_uri'] }}</a>@endforeach

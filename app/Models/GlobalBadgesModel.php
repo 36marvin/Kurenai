@@ -29,20 +29,23 @@ class GlobalBadgesModel extends Model
     public function checkIfValidBadgeExists(string $userId) : bool
     {
         $badge = $this->select(
-                               'mod1',
-                               'mod2',
-                               'mod3', 
-                               'ban-reviewer',
-                               'aux-manager',
-                               'aud-manager2',
+                               'mod_1',
+                               'mod_2',
+                               'mod_3', 
+                               'ban_reviewer',
+                               'aux_manager',
+                               'aux_manager2',
                                'admin'
                               )
                       ->where('user_id', $userId)
-                      ->first()
-                      ->toArray(); // I like arrays
+                      ->first();
+        if($badge) {
+            $badge->toArray(); // I like arrays
+        } else {
+            return false; // No badge for this user? Surely he's not a global staffer. Return false.
+        }
 
-        // Whole function will return true if
-        // any permission is found.
+        // He has a badge? See if his permissions are good.
         foreach($badge as $badgePermission) {
             if($badgePermission == true) {
                 return true;

@@ -33,7 +33,7 @@ class BoardModel extends Model
     }
 
     private function getUserModel () {
-        return App::make('App\Models\UserModel'); 
+        return App::make(UserModel::class); 
     }
 
     protected static function newFactory() {
