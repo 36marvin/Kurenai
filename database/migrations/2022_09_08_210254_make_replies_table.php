@@ -14,18 +14,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('replies', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->unique()->autoIncrement();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('thread_id');
-            $table->string('reply_title', 50)->nullable();
-            $table->string('reply_body', 255);
-            $table->integer('fuel_count')->default(0);
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
-            $table->timestamp('last_edited_at');
-            $table->boolean('is_highlighted')->default(false);
+            $table->uuid('id')->unique();
+            $table->uuid('userId');
+            $table->uuid('threadId');
+            $table->string('title', 50)->nullable();
+            $table->string('body', 255);
+            // $table->integer('fuelCount')->default(0);
+            $table->timestamp('createdAt');
+            $table->timestamp('updatedAt');
+            // $table->timestamp('last_edited_at'); ???
+            $table->boolean('isHighlighted')->default(false);
             
-            $table->foreign('thread_id')->references('id')->on('threads');
+            $table->foreign('threadId')->references('id')->on('threads');
+            $table->foreign('userID')->references('id')->on('users');
         });
     }
 

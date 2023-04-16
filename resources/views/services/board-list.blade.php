@@ -25,18 +25,18 @@
             --}}
             </tr>
             @foreach($boardList->items() as $board)
-            @if($board->is_secret /* && !isGlobalStaffer() */)
+            @if($board->isSecret /* && !isGlobalStaffer() */)
                 @continue
             @endif
             <tr class="generic-table-one__tr">
                 <td class="boardlist-name">
-                    <a class="default-hyperlink wordbreak-breakall {{$board['is_frozen'] ? 'strikethrough' : ''}}" }} href="/board/{{ $board['board_uri'] }}">{{ $board['board_name'] }}</a>
+                    <a class="default-hyperlink wordbreak-breakall {{$board['isFrozen'] ? 'strikethrough' : ''}}" }} href="/board/{{ $board['uri'] }}">{{ $board['name'] }}</a>
                 </td>
-                <td class="boardlist-description">{{ $board->board_description }}</td>
+                <td class="boardlist-description">{{ $board->description }}</td>
                 <td>n/a</td>
                 <td>n/a</td>
             {{--@if(Auth::isGlobalStaffer)
-                <td>@if($board->is_secret)
+                <td>@if($board->isSecret)
                         yes
                     @else <!-- ternay operator is not working due to a Blade bug -->
                         no

@@ -39,5 +39,11 @@ class BoardSeeder extends Seeder
                   ->secret()
                   ->frozen()
                   ->create();
+                  
+        // make kurenaitest (board that will receive threads from the thread seeder)
+        BoardModel::factory()
+                  ->count(1)
+                  ->kurenaitest()
+                  ->create();
     }
 }

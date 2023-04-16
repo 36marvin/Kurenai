@@ -15,7 +15,7 @@ class ThreadFactory extends Factory
 
     public function sendToDesignatedTestingBoard() {
         return $this->state(function (array $attributes) {
-            return ['board_uri' => 'kurenaitest'];
+            return ['boardUri' => 'kurenaitest'];
         });
     }
 
@@ -26,23 +26,26 @@ class ThreadFactory extends Factory
      */
     public function definition()
     {
+        // Todo: prevent this from creating threads with duplicate
+        // unique attributes (ids, pseudoid, uri, etc.)
+
         return [
-            'id' => fake()->uuid(),
-            'user_id' => 0,
-            'board_uri' => fake()->regexify('/[a-zA-Z0-9]{1,10}/'), // Todo: DRY.
-            'fuel_count' => 0,
-            'bump_count' => 0,
-            'in_board_pseudo_id' => fake()->numberBetween(1, 9999999999),
+            'id' => fake()->unique()->uuid(),
+            'userId' => 0,
+            'boardUri' => fake()->unique()->regexify('/[a-zA-Z0-9]{1,10}/'), // Todo: DRY.
+            // 'fuelCount' => 0,
+            'bumpCount' => 0,
+            'inBoardPseudoId' => fake()->unique()->numberBetween(1, 9999999999),
             'title' => fake()->regexify('/^[A-Za-z0-9]{1}([ ]?[A-Za-z0-9]+){0,19}$/'),
             'body' => fake()->regexify('/^[A-Za-z0-9]{1}([ ]?[A-Za-z0-9]+){0,19}$/'),
-            'created_at' => date('Y-m-d H:i:s',fake()->unixTime()),
-            'last_pinned_updated' => date('Y-m-d H:i:s',fake()->unixTime()),
-            'last_valid_bump_at' => date('Y-m-d H:i:s',fake()->unixTime()),
-            'updated_at' => date('Y-m-d H:i:s',fake()->unixTime()),
-            'is_locked' => fake()->boolean(),
-            'is_infinite' => fake()->boolean(),
-            'is_pinned' => fake()->boolean(),
-            'is_censored' => fake()->boolean()
+            'createdAt' => date('Y-m-d H:i:s',fake()->unixTime()),
+            'lastPinnedUpdated' => date('Y-m-d H:i:s',fake()->unixTime()),
+            'lastValidBumpAt' => date('Y-m-d H:i:s',fake()->unixTime()),
+            'updatedAt' => date('Y-m-d H:i:s',fake()->unixTime()),
+            'isLocked' => fake()->boolean(),
+            'isInfinite' => fake()->boolean(),
+            'isPinned' => fake()->boolean(),
+            'isCensored' => fake()->boolean()
         ];
     }
 

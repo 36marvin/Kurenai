@@ -15,24 +15,29 @@ return new class extends Migration
     {
         Schema::create('threads', function (Blueprint $table) {
             $table->uuid('id')->unique();
-            $table->uuid('user_id'); // author of the thread 
-            $table->unsignedBigInteger('fuel_count')->default(0);
-            $table->unsignedBigInteger('bump_count')->default(0);
-            $table->unsignedBigInteger('in_board_pseudo_id'); // threads and replies in a specific board are numbered in the order that they have been created: 1, 2, 3, ... 100, ... (this counter should be updated when the thread is moved)
+            $table->foreignUuid('userId'); // author of the thread, 
+            $table->unsignedBigInteger('bumpCount')->default(0);
+            $table->unsignedBigInteger('inBoardPseudoId')->unique(); // threads and replies in a specific board are numbered in the order that they have been created: 1, 2, 3, ... 100, ... (this counter should be updated when the thread is moved)
 
             $table->string('title', 255);
             $table->string('body', 4000);
-            $table->string('board_uri', 255);
+            $table->string('boardUri', 255);
 
-            $table->timestamp('created_at');
-            $table->timestamp('last_pinned_updated')->default(null); // pinned posts go first, the ones with longer last_pinned_update timestamp at the topmost
-            $table->timestamp('last_valid_bump_at');
-            $table->timestamp('updated_at');
+            $table->string('embeddedLink', 255)->nullable();
+            $table->string('embeddedLinkTitle', 255)->nullable();
 
-            $table->boolean('is_locked')->default(false);
-            $table->boolean('is_infinite')->default(false);
-            $table->boolean('is_pinned')->default(false);
-            $table->boolean('is_censored')->default(false);
+            $table->timestamp('createdAt');
+            $table->timestamp('lastPinnedUpdated')->default(null); // pinned posts go first, the ones with longer last_pinned_update timestamp at the topmost
+            $table->timestamp('lastValidBumpAt');
+            $table->timestamp('updatedAt');
+
+            $table->boolean('isLocked')->default(false);
+            $table->boolean('isInfinite')->default(false);
+            $table->boolean('isPinned')->default(false);
+            $table->boolean('isCensored')->default(false);
+
+            // $table->foreign('boardUri')->references('uri')->on('boards');
+
         });
 
     }

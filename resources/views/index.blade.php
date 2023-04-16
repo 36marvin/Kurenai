@@ -7,7 +7,7 @@
     <title>{{ $index['siteName'] ?? 'Kurenai' }}</title>
     @include('head.stylesheets')
 </head>
-<body>
+<body class="index-body body-background-theme">
 <div class="mascot"></div>
 <div class="flex-wrapper">
 <div class="box-vp box1"> 
@@ -18,7 +18,7 @@
 <div class="index-boards global-util__button">Featured boards:</div>
 <div class="index-boardlist">
     @if(isset($boards)) {{-- glue the foreach's together to avoid html whitespace between inline elements --}}
-    @foreach($boards as $board)<a href="/board/{{ $board['board_uri'] }}" class="index-board-hyperlink">{{ $board['board_uri'] }}</a>@endforeach
+    @foreach($boards as $board)<a href="/board/{{ $board['uri'] }}" class="index-board-hyperlink">{{ $board['uri'] }}</a>@endforeach
     <a href="/services/boardlist" class="index-board-hyperlink last-board-a">See all boards w/ details</a>
     @else
     <a class="index-board-hyperlink">No boards featured</a>
@@ -58,6 +58,10 @@
 @endif
 </div>
 
+<!-- box2 -->
+
+<hr class="board-separator">
+
 <div class="box-vp box2">
 <div class="box2-wrapper">
   <div class="hot-section">
@@ -85,6 +89,13 @@
       <img class="featured-img" src="/images/admin/imageofnow.jpg" alt="ERROR: NO IMAGE AVAILABLE">
   </div>
 </div>
+</div>
+
+<!-- forum map -->
+
+<hr class="board-separator">
+<div class="centerdiv">
+  @include('global.forummap')
 </div>
 @include('global.footer')
 </body>
