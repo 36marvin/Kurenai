@@ -67,15 +67,14 @@ c0-30.327,24.673-55,54.999-55c30.327,0,55,24.673,55,55v45H110.001V85z"/></g><g><
 <div class="thread-form-intro">Make a Thread</div>
 <form class="thread-submit-form" method="post" action="/forms/newthread/">
   <table class="make-thread-table">
-  
     <tr>
-    <td class="table-top"><input autocomplete="off" name="post-title" placeholder="Title"></input><button class="post-button">Post</button></td>
+      <td class="table-top"><input autocomplete="off" name="post-title" placeholder="Title"></input><button class="post-button">Post</button></td>
     </tr>
-    
     <tr>
-    <td><textarea cols="80" rows="4" name="post-body" class="form-body" placeholder="What's going on?"></textarea></td>
+      <td><textarea cols="80" rows="4" name="post-body" class="form-body" placeholder="What's going on?"></textarea></td>
     </tr>
-  </table> 
+  </table>
+  @csrf 
 </form>
 </div>
 @endif

@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('replies', function (Blueprint $table) {
             $table->uuid('id')->unique();
-            $table->uuid('userId');
-            $table->uuid('threadId');
-            $table->string('title', 50)->nullable();
-            $table->string('body', 255);
-            // $table->integer('fuelCount')->default(0);
+            $table->foreignUuid('userId');
+            $table->foreignUuid('threadId');
+            $table->string('title', 255)->nullable();
+            $table->string('body', 65535);
+            $table->integer('fuelCount')->default(0);
             $table->timestamp('createdAt');
             $table->timestamp('updatedAt');
             // $table->timestamp('last_edited_at'); ???

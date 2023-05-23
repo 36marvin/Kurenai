@@ -32,9 +32,9 @@ class BoardModel extends Model
         return App::make('App\Models\ThreadModel'); 
     }
 
-    private function getUserModel () {
-        return App::make(UserModel::class); 
-    }
+    // private function getUserModel () {
+    //     return App::make(UserModel::class); 
+    // }
 
     protected static function newFactory() {
         return BoardFactory::new();
@@ -100,7 +100,10 @@ class BoardModel extends Model
         // paginate()'s argument will make Docker's php process glitch if changed to some other values (eg 20)
         // return $this->paginate(50)
                     // ->toArray();
-        if (Auth::check() && $this->getUserModel()->isGlobalStaffer(Auth::id())) {
+
+        // this is a workaround
+        $userModel = App::make(UserModel::class);
+        if (Auth::check() && $userModel->isGlobalStaffer(Auth::id())) {
             return $this->paginate(50);
         } else {
             return $this->where('isSecret', false)

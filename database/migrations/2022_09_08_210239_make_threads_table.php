@@ -17,10 +17,10 @@ return new class extends Migration
             $table->uuid('id')->unique();
             $table->foreignUuid('userId'); // author of the thread, 
             $table->unsignedBigInteger('bumpCount')->default(0);
-            $table->unsignedBigInteger('inBoardPseudoId')->unique(); // threads and replies in a specific board are numbered in the order that they have been created: 1, 2, 3, ... 100, ... (this counter should be updated when the thread is moved)
+            $table->unsignedBigInteger('inBoardPseudoId'); // threads and replies in a specific board are numbered in the order that they have been created: 1, 2, 3, ... 100, ... (this counter should be updated when the thread is moved)
 
             $table->string('title', 255);
-            $table->string('body', 4000);
+            $table->string('body', 65535);
             $table->string('boardUri', 255);
 
             $table->string('embeddedLink', 255)->nullable();
@@ -36,7 +36,8 @@ return new class extends Migration
             $table->boolean('isPinned')->default(false);
             $table->boolean('isCensored')->default(false);
 
-            // $table->foreign('boardUri')->references('uri')->on('boards');
+            // $table->foreign('boardUri')->references('uri')->on('boards'); will be done later on the board migration
+            $table->foreign('userID')->references('id')->on('users');
 
         });
 

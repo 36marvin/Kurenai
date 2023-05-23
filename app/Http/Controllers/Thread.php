@@ -5,20 +5,62 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\ThreadModel;
+use App\Models\ReplyModel;
 
 class Thread extends Controller
 
 {
-    function makeThread (Request $request, User $user, ThreadModel $thread) {
-        $userId = $request->session()->get('user_id');
+    public function serveThreadIndex(ThreadModel $threadModel, ReplyModel $replyModel) 
+    {
+        $pseudoId = request()->route()->parameter('threadPseudoId');
 
-        $thread->makeThread($request->input('threadBody'), 
-                            $request->input('threadTitle'), 
-                            $request->input('isLocked'), 
-                            $request->input('isInfinite'), 
-                            $request->input('allowHtml'),
-                            $userId
-                           );
+        $op = $threadModel->getThreadPostAndUser($pseudoId);
+        $replies = $replyModel->getReplyPostsWithUsers($pseudoId);
+
+        return view('thread-index')->with('op', $op)
+                                   ->with('replies', $replies);
+    }
+
+    public function makeThread (Request $request, User $user, ThreadModel $thread)
+    {
+        // if(hasAnyOfThesePermissions([
+        //                             'mod2',
+        //                             'mod3',
+        //                             'admin',
+        //                             'auxManager1',
+        //                             'auxManager2'
+        //                             ],
+        //                             Auth::id()
+        //                            )
+        // ) {$threadConfig = [
+        //         'isLocked' => $request->isLocked,
+        //         'isInfinite' => $request->isInfinite,
+        //         'isPinned' => $request->isPinned,
+        //         'isCensored' => $request->isCensored
+        //     ];
+        // } else {
+        //     $threadConfig = [
+        //         'isLocked' => false,
+        //         'isInfinite' => false,
+        //         'isPinned' => false,
+        //         'isCensored' => false
+        //     ];
+        // }
+
+        $self->create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'boardUri' => $request->boardUri,
+            'inBoardPseudoId' => 0,
+
+            'userId' => $userId = Auth::id(),
+            'id' => (string)Str::uuid(),
+
+            'isLocked' => false,
+            'isInfinite' => false,
+            'isPinned' => false,
+            'isCensored' => false,
+        ]);
     }
 
     function updateThread (Request $request, ThreadModel $thread) {

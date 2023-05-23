@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\Models\PostModelParent;
 use App\Models\ThreadModel;
 
@@ -16,7 +17,7 @@ interface IlastReps {
     public function getLastThreadReplies($threadId, int $repliesPerThread): array;
 }
 
-class ReplyModel extends PostModelParent implements Ithreads
+class ReplyModel extends PostModelParent
 {
     protected $table = 'replies';
 
@@ -26,11 +27,17 @@ class ReplyModel extends PostModelParent implements Ithreads
 
     protected $keyType = 'string';
 
-    function createReply ($replyTitle, $replyBody, $userId, $threadId) {
-        $this->title = $replyTitle;
-        $this->body = $this->formatBody($replyBody);
-        $this->userId = $userId;
-        $this-save();
+    const CREATED_AT = 'createdAt';
+
+    const UPDATED_AT = 'updatedAt';
+
+    function createReply ($replyTitle, $replyBody, $threadId) {
+        ReplyModel::create([
+            'body' => $request->replyBody,
+            'title' => $request->replyTitle,
+            'threadId' => $request->threadId,
+            'userId' => Auth::id(),
+        ]);
     }
 
     function deleteReply ($replyId) {
@@ -40,12 +47,14 @@ class ReplyModel extends PostModelParent implements Ithreads
     function highlightReply ($replyId) {
         
     }
-
-    public function getLastThreadReplies ($threadId, int $repliesPerThread) {
-        return $self::where('thread_id', $threadId)
-                    ->orderBy('created_at', 'desc')
-                    ->limit($repliesPerThread)
-                    ->get();
+    /**
+     *  For the thread index.
+     */
+    public function getReplyPostsWithUsers($threadId)
+    {
+        $replies = DB::table('replies')->where('threadId', $threadId)
+                                       ->orderBy('created_at', 'desc')
+                                       ->paginate(100);
     }
     
 }

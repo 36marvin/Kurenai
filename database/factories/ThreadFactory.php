@@ -15,7 +15,9 @@ class ThreadFactory extends Factory
 
     public function sendToDesignatedTestingBoard() {
         return $this->state(function (array $attributes) {
-            return ['boardUri' => 'kurenaitest'];
+            return ['boardUri' => 'kurenaitest',
+                    'userId' => '69'
+            ];
         });
     }
 

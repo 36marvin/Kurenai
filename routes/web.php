@@ -6,6 +6,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\User as UserController;
+use App\Http\Controllers\Thread as ThreadController;
 use App\Http\Controllers\GlobalManageController;
 
 /*
@@ -61,7 +62,7 @@ Route::get('/board/{boardUri}/manage', [BoardController::class, 'serveLocalBoard
 
 Route::get('/board/{boardUri}', [BoardController::class, 'serveBoard']);
 
-Route::get('/board/{boardUri}/{threadId}', [ThreadController::class, 'serveThread']);
+Route::get('/board/{boardUri}/{threadPseudoId}', [ThreadController::class, 'serveThreadIndex']);
 
     //////////////////////////////////////////////////////////////
     ///////////////////   POST METHODS    ////////////////////////
@@ -73,7 +74,9 @@ Route::post('/forms/logout/', [UserController::class, 'logOut']);
 
 Route::post('/forms/signup/', [UserController::class, 'signUp']);
 
-Route::post('/forms/newthread/', [UserController::class, 'newThread']);
+Route::post('/forms/newthread/', [ThreadController::class, 'makeThread']);
+
+Route::post('/forms/newreply/', [ReplyController::class, 'makeReply']);
 
 Route::post('/forms/deleteboard/{uri}', [BoardController::class, 'deleteBoard']);
 

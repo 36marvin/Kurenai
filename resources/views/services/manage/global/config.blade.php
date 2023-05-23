@@ -42,7 +42,7 @@
 
     <div class="create-board__container">
         <div class="create-board__intro global__container_color-intro">Global post configuration</div>
-        <form action="postmethods/global/manage/setpostconfig" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
+        <form action="/forms/globalManage/setPostConfig/" method="post" class="create-board__form-element width-fit-content global-util__container-body-general">
         @csrf
         <table class="create-board__form-table">
             <tr>
@@ -62,13 +62,13 @@
                 <td></td>
             </tr> 
             <tr>
-                <td>Accepted file formats:</td>
+                <td>Accepted file formats: (not working XD)</td>
                 <td></td>
             </tr>
             @foreach(config('kurenai.postConfig.allowedMedia') as $key => $media)
             <tr>
                 <td><label for="{{ $key }}">{{ $key }}</label></td>
-                <td><input autocomplete="off" type="checkbox" value="true" {{ $media ? 'checked' : '' }} name="{{ $key }}" required id="{{ $key }}"></td>
+                <td><input autocomplete="off" type="checkbox" value="true" {{ $media ? 'checked' : '' }} name="{{ $key }}" id="{{ $key }}"></td>
             </tr>
             @endforeach
         </table>
@@ -101,4 +101,12 @@
         <input type="submit" value="set global board configuration" class="create-boards__submit-btn">
         </form>
     </div>
+
+    <div class="create-board__container">
+        <div class="create-board__intro global__container_color-intro">Infrastructure info:</div>
+        <div class="create-board__form-element width-fit-content global-util__container-body-general">
+            An instance of Kurenai running on Laravel version {{Illuminate\Foundation\Application::VERSION}} and PHP version {{ PHP_VERSION }}.
+        </div>
+    </div>
+
 @include('global.footer')

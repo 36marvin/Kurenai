@@ -19,9 +19,9 @@ body {margin:0;}
 }
 
 .box1{
- background-image: url(/static/img/misc/powerful_retro_by_patreon.comSlashWaneella.gif);
- background-repeat: no-repeat;
- background-size: 100% 100%; 
+ /* background-image: url(/static/img/misc/powerful_retro_by_patreon.comSlashWaneella.gif); */
+ /* background-repeat: no-repeat; */
+ /* background-size: 100% 100%;  */
  /* background-color: #252739; */
  height: fit-content !important;
  border-width: 0 0 1px 0; 
@@ -29,8 +29,8 @@ body {margin:0;}
 }
 
 .box2{
-    background-color: #252739;
-    border: solid white;
+    /* background-color: #252739; */
+    /* border: solid white; */
     border-width: 1px 0 1px 0;
 }
 
@@ -41,6 +41,7 @@ body {margin:0;}
 @media only screen and (max-width: 500px) {
 .box2 {
    flex-direction: column;
+   
 }
 
 .hot-section {
@@ -58,6 +59,31 @@ body {margin:0;}
 
 .box1-wrapper {
    margin: auto !important;
+}
+
+.thread-post {
+  flex-direction: column !important;
+}
+
+.post-id {
+  margin: none !important;
+}
+
+.post-date {
+  margin: 0;
+}
+
+.post-upper-data {
+  flex-direction: column !important;
+}
+
+.thread-index {
+  width: 100vw !important;
+  box-sizing: border-box;
+}
+
+.replymaker-container {
+  width: 100vw !important;
 }
 }
 
@@ -447,6 +473,7 @@ body {margin:0;}
   border-width: 0 0 1px 0;
   border-color: #595959;
   border-style: solid;
+  width: 100vw;
 }
 
 .global-navbar__td {
@@ -920,4 +947,177 @@ body {margin:0;}
 .global-util__simpleError {
   margin-top: 0.5em;
   color: #f9363f;
+}
+
+.display-inline-block {
+  display: inline-block;
+}
+
+.forum-map__header {
+  text-align: center;
+  background-color: var(--color-non-dominant);
+  color: white;
+  font-weight: bold;
+}
+
+.global__sitemap__container {
+  width: 30em;
+  padding: 1em 0 1em 0;
+}
+
+.global__sitemap__table {
+  border-collapse: collapse;
+  background-color: #252739;
+  color: white;
+}
+
+.index-body {
+  background-color: #252739;
+}
+
+.global__sitemap__table__td {
+  border: 1px black solid;
+}
+
+.global__sitemap__table__a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.global__sitemap_table__li {
+  border: white solid 1px;
+  border-radius: 5px;
+  padding: 0.2em;
+  display: inline-block;
+  margin: 0.1em;
+}
+
+.global__sitemap__table__a:hover {
+  color: var(--color-non-dominant)
+}
+
+.global__sitemap__table__td--intro {
+  text-align: center;
+}
+
+.thread-index {
+  width: 80vw;
+  margin: 1em auto;
+  border: solid black 1px;
+  background-color: rgb(46, 46, 46);
+  color: white;
+  padding: 1em;
+}
+
+.post-wrapper-flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.post-upper-data {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5em;
+}
+
+.post-id {
+  margin-left: auto;
+  color: grey;
+  text-decoration: none;
+}
+
+.post-title {
+  color: var(--color-non-dominant);
+  font-weight: bold;
+  font-size: large;
+}
+
+.post-id:hover {
+  color: var(--color-non-dominant)
+}
+
+.post-date {
+  margin-left: 1em;
+  color: grey;
+  height: max-content;
+  margin-top: auto;
+}
+
+.poster-id {
+  background-color: rgb(26, 26, 26);
+}
+
+.post-content {
+  margin-left: 0.5em;
+  padding: 0.5em
+}
+
+.poster-id-wrapper {
+  margin: 0.5em;
+  text-align: center;
+}
+
+.poster-badge-mod {
+  width: fit-content;
+  margin: 0.5em auto 0 auto;
+  text-decoration: underline;
+  color: grey;
+}
+
+.poster-name {
+  margin: 0.5em auto 0 auto;
+  font-weight: bold;
+}
+
+.thread-post {
+  border: 1px #6f6f6f solid;
+}
+
+.replyMaker {
+  background-color: #262525;
+  border: none;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
+.replyBody {
+  width: 100%;
+  box-sizing: border-box;
+  border: none !important;
+}
+
+.replymaker-container {
+  width: 50vw;
+}
+
+.profile-picture {
+  width: 6em;
+  border: 1px solid white;
+}
+
+.replymaker__upper-data {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5em;
+}
+
+.makeReplyTitle {
+  flex-grow: 8;
+  border: none !important;
+}
+
+.replymaker__btn {
+  margin-left: 1em;
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.text-input-default {
+  background-color: #1a1a1a;
+  color: white;
+  border: 1px solid white;
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Database\Factories\UserFactory;
+use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -16,6 +18,8 @@ use App\Models\GlobalBadgesModel;
 
 class User extends Authenticatable
 {
+    use HasFactory;
+
     protected $table = 'users';
 
     protected $primaryKey = 'id';
@@ -60,6 +64,10 @@ class User extends Authenticatable
 
     protected $badgeID;
 
+    protected static function newFactory() {
+        return UserFactory::new();
+    }
+
     public function getGlobalBadgesModel() {
         return App::make(UserModel::class); 
     }
@@ -81,7 +89,7 @@ class User extends Authenticatable
             'email' => $request->email ?? null,
             'password' => Hash::make($request->password),
             'id' => (string)Str::uuid(),
-            'badge_id' => null,
+            // 'badge_id' => null,
         ]);
 
         // event(new Registered($user));

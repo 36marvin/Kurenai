@@ -1,0 +1,1 @@
+The file kurenaiConfig.json is supposed to be automatically changed. Manually editing it may (or may not) cause vital parts of Kurenai to break completely, only edit the file if you reasonably know what you're doing.
