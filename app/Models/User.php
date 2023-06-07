@@ -8,6 +8,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,7 @@ use App\Models\GlobalBadgesModel;
 
 class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'users';
 
@@ -88,8 +89,6 @@ class User extends Authenticatable
             'name' => $request->name,
             'email' => $request->email ?? null,
             'password' => Hash::make($request->password),
-            'id' => (string)Str::uuid(),
-            // 'badge_id' => null,
         ]);
 
         // event(new Registered($user));
@@ -130,6 +129,7 @@ class User extends Authenticatable
      */
     public function isGlobalStaffer(string $userId) 
     {
+        // if the user is logged on, this will return a "function must return a relationship" error
         return $this->getGlobalBadgesModel->checkIfValidBadgeExists($userId);
     }
 }

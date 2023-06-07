@@ -33,9 +33,9 @@ class ReplyModel extends PostModelParent
 
     function createReply ($replyTitle, $replyBody, $threadId) {
         ReplyModel::create([
-            'body' => $request->replyBody,
-            'title' => $request->replyTitle,
-            'threadId' => $request->threadId,
+            'body' => $replyBody,
+            'title' => $replyTitle,
+            'threadId' => $threadId,
             'userId' => Auth::id(),
         ]);
     }

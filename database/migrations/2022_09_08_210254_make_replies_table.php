@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('id')->unique();
             $table->foreignUuid('userId');
             $table->foreignUuid('threadId');
-            $table->string('title', 255)->nullable();
+            $table->string('title', 255)->nullable()->default('');
             $table->string('body', 65535);
             $table->integer('fuelCount')->default(0);
             $table->timestamp('createdAt');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('isHighlighted')->default(false);
             
             $table->foreign('threadId')->references('id')->on('threads');
-            $table->foreign('userID')->references('id')->on('users');
+            $table->foreign('userId')->references('id')->on('users');
         });
     }
 
