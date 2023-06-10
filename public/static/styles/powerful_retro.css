@@ -1028,6 +1028,7 @@ body {margin:0;}
 }
 
 .post-title {
+  margin-right: 1em;
   color: var(--color-non-dominant);
   font-weight: bold;
   font-size: large;
@@ -1038,7 +1039,6 @@ body {margin:0;}
 }
 
 .post-date {
-  margin-left: 1em;
   color: grey;
   height: max-content;
   margin-top: auto;
@@ -1050,7 +1050,8 @@ body {margin:0;}
 
 .post-content {
   margin-left: 0.5em;
-  padding: 0.5em
+  padding: 0.5em;
+  width: 100%;
 }
 
 .poster-id-wrapper {
@@ -1120,4 +1121,8 @@ body {margin:0;}
   background-color: #1a1a1a;
   color: white;
   border: 1px solid white;
+}
+
+.thread-post {
+  margin-bottom: 1em;
 }

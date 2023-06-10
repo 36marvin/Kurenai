@@ -5,6 +5,7 @@ use App\Http\Controllers;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\User as UserController;
 use App\Http\Controllers\Thread as ThreadController;
 use App\Http\Controllers\GlobalManageController;
@@ -76,7 +77,7 @@ Route::post('/forms/signup/', [UserController::class, 'signUp']);
 
 Route::post('/forms/newthread/', [ThreadController::class, 'makeThread']);
 
-Route::post('/forms/newreply/', [ReplyController::class, 'makeReply']);
+Route::post('/forms/makereply/', [ReplyController::class, 'makeReply']);
 
 Route::post('/forms/deleteboard/{uri}', [BoardController::class, 'deleteBoard']);
 

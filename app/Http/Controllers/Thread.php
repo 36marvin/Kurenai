@@ -12,10 +12,13 @@ class Thread extends Controller
 {
     public function serveThreadIndex(ThreadModel $threadModel, ReplyModel $replyModel) 
     {
-        $pseudoId = request()->route()->parameter('threadPseudoId');
+        $threadPseudoId = request()->route()->parameter('threadPseudoId');
+        $threadsBoardUri = request()->route()->parameter('boardUri');
 
-        $op = $threadModel->getThreadPostAndUser($pseudoId);
-        $replies = $replyModel->getReplyPostsWithUsers($pseudoId);
+        $threadId = $threadModel->getThreadIdByPseudoId($threadPseudoId, $threadsBoardUri);
+
+        $op = $threadModel->getThreadPostAndUser($threadPseudoId, $threadsBoardUri);
+        $replies = $replyModel->getReplyPostsWithUsers($threadId);
 
         return view('thread-index')->with('op', $op)
                                    ->with('replies', $replies);

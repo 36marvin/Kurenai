@@ -44,6 +44,10 @@ class User extends Authenticatable
         'badge_id'
     ];
 
+    protected $guarded = [
+        'password',
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -146,4 +146,20 @@ class BoardModel extends Model
         return $this->where('uri', $uri)
              ->exists();
     }
+
+    public function getPostCount($boardUri)
+    {
+        return $this->select('postCount')
+                    ->where('uri', $boardUri)
+                    ->first()
+                    ->postCount;
+    }
+
+    public function incrementBoardPostCount($boardUri) 
+    {
+        $board = $this->where('uri', 'kurenaitest')
+                      ->first();
+        $board->postCount = $board->postCount == false ? 1 : $board->postCount + 1;
+        $board->save();
+    }
 }

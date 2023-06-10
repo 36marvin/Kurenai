@@ -47,9 +47,10 @@ class ThreadModel extends PostModelParent
     /**
      *  For the thread index.
      */
-    public function getThreadPostAndUser($threadPseudoId)
+    public function getThreadPostAndUser($threadPseudoId, $boardUri)
     {
         $post = DB::table('threads')->where('inBoardPseudoId', $threadPseudoId)
+                                    ->where('boardUri', $boardUri)
                                     ->first();
         $user = DB::table('users')->where('id', $post->userId)
                                   ->first();
@@ -145,21 +146,22 @@ class ThreadModel extends PostModelParent
         return $threads;
     }
 
-    public function getThreadPseudoIdByUri($uri)
-    {
-        return DB::table('threads')->select('pseudoId')
-                                   ->where('uri', $uri)
-                                   ->first();
-    }
-
     // Threads in different boards may have the same
     // pseudo id, so the user of this functioon will 
     // have to tell us what board the thread is in. 
     public function getThreadIdByPseudoId($threadPseudoId, $boardUri)
     {
-        return DB::table('threads')->select('id')
+        $thread = DB::table('threads')->select('id')
                                    ->where('inBoardPseudoId', $threadPseudoId)
                                    ->where('boardUri', $boardUri)
                                    ->first();
+        return $thread->id;
+    }
+
+    public function getBoardUriByThreadId($threadId)
+    {
+        return $this->where('id', $threadId)
+                    ->first()
+                    ->boardUri;
     }
 }

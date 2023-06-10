@@ -17,7 +17,7 @@
 <div class="post-wrapper-flex thread-post" id="{{ $op->post->inBoardPseudoId }}">
   <div class="poster-id">
     <div class="poster-id-wrapper">
-      <img src="{{-- $reply['user']['avatarUrl'] --}}" alt="img.jpg" class="profile-picture">
+      <img src="/static/img/profile_pics/default.jpg {{-- add ternary operador: propic for user id exist ? use it : use default propic --}}" class="profile-picture">
       <div class="poster-name">{{ $op->user->name }}</div>
       <div class="poster-badge-mod">mod {{-- $op->user->name --}}</div>
     </div>
@@ -42,13 +42,58 @@
     </div>
   </div>
 
+{{--
+    Reply.
+--}}
+@if(isset($replies))
+@foreach($replies->all() as $reply)
+<div class="post-wrapper-flex thread-post">
+  <div class="poster-id">
+    <div class="poster-id-wrapper">
+      <img src="/static/img/profile_pics/default.jpg" class="profile-picture">
+      <div class="poster-name">{{ $reply->author --}}</div>
+      <div class="poster-badge-mod">{{-- $reply->user->badge --}}</div>
+    </div>
+  </div>
+  <div class="post-content">
+    <div class="post-upper-data"> 
+      @if($reply->title)
+      <div class="post-title">{{ $reply->title }}</div>
+      @endif
+      <span class="post-date">{{ $reply->createdAt }}</span>
+      <a href="#{{$reply->inBoardPseudoId }}" class="post-id">{{ $reply->inBoardPseudoId }}</a>
+    </div>
+    <?php /* 
+    <div class="post-data">
+         <span class="post-date">{{-- $reply->post->date --}}</span> RIP
+         </div> 
+    --}} 
+    */ ?>
+    <div class="post-body">
+    {{ $reply->body }}  
+    </div>
+    <div class="quote-data" style="display:none;">
+      <!-- <hr class="post-hr"> -->
+      <div class="post-under-data">
+        <?php /*
+        @foreach($quotes as $quote)
+        <span class="post-quotes">{{-- $quote->pseudoId --}}</span>
+        @endforeach
+        */ ?>
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
+@endif
+
 {{-- 
     Reply maker.
 --}}
 @if(Auth::check())
 <div class="create-board__container replymaker-container">
     <!-- <div class="create-board__intro global__container_color-intro">reply maker</div> -->
-    <form action="forms/makereply" method="post" class="replyMaker">
+    <form action="/forms/makereply" method="post" class="replyMaker">
         @csrf
         <input type="hidden" value="{{ $op->post->id }}" name="threadId" required>
         <div class="replymaker__upper-data"> {{-- flex row these two --}}
@@ -61,44 +106,6 @@
 @endif
 </div>
 
-{{--
-    Reply.
---}}
-@if(isset($replies))
-@foreach($replies as $reply)
-<div class="post-wrapper-flex thread-post">
-  <div class="poster-id">
-    <div class="poster-id-wrapper">
-      <img src="{{-- $reply['user']['avatarUrl'] --}}" class="profile-picture">
-      <div class="poster-name">{{-- $reply->user->name --}}</div>
-      <div class="poster-badge-mod">{{-- $reply->user->name --}}</div>
-    </div>
-  </div>
-  <div class="post-content">
-    <div class="post-upper-data"> 
-      <div class="post-title">{{-- $reply->post->title --}}</div>
-      <span class="post-date">{{-- $reply->post->date --}}</span>
-      <div class="post-id">{{-- $reply->post->pseudoId --}}</div>
-    </div>
-    {{-- <div class="post-data">
-         <span class="post-date">{{-- $reply->post->date --}}</span> RIP
-         </div> 
-    --}}
-    <div class="post-body">
-    {{-- $reply->post->body --}}  
-    </div>
-    <div class="quote-data" style="display:none;">
-      <!-- <hr class="post-hr"> -->
-      <div class="post-under-data">
-        @foreach($quotes as $quote)
-        <span class="post-quotes">{{-- $quote->pseudoId --}}</span>
-        @endforeach
-      </div>
-    </div>
-  </div>
-</div>
-@endforeach
-@endif
 {{--
     Thread pages.  
 --}}

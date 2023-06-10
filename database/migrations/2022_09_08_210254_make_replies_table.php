@@ -17,8 +17,9 @@ return new class extends Migration
             $table->uuid('id')->unique();
             $table->foreignUuid('userId');
             $table->foreignUuid('threadId');
+            $table->unsignedBigInteger('inBoardPseudoId');
             $table->string('title', 255)->nullable()->default('');
-            $table->string('body', 65535);
+            $table->longText('body');
             $table->integer('fuelCount')->default(0);
             $table->timestamp('createdAt');
             $table->timestamp('updatedAt');
