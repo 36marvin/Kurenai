@@ -23,6 +23,7 @@
 <div class="thread-index-container index-container-basic">
 @if(isset($threads) && $threads != null)
 @foreach($threads["data"] as $thread)
+<div class="threads-reply-wrapper"> {{-- container for thread and reply --}}
 <div class="thread-container">
 {{--  <div class="thread-bullets">•</div> --}} 
   <a href="/board/{{ $thread['boardUri'] }}/{{ $thread['inBoardPseudoId'] }}" class="thread-hiperlink">{{ $thread['title'] }}</a> 
@@ -47,11 +48,12 @@ c0-30.327,24.673-55,54.999-55c30.327,0,55,24.673,55,55v45H110.001V85z"/></g><g><
   @if(isset($thread['replies']))
   @foreach($thread['replies'] as $reply)
   <div class="thread-reply-container">
-    <div class="thread-hiperlink reply-hiperlink">{{ $reply['title'] }}</div>
-    <div class="thread-user">- {{$reply['userName'] }}</div>
+    <div class="thread-hiperlink-container">• <a href="/board/{{ $thread['boardUri'] }}/{{ $thread['inBoardPseudoId'] }}" class="thread-hiperlink reply-hiperlink">{{ $reply->title }}</a></div>
+    <div class="thread-user">- {{ $reply->poster }}</div>
   </div>
   @endforeach
   @endif
+</div>
 @endforeach
 @else
 <div class="no-threads-warning">(No threads yet)</div>
@@ -68,13 +70,14 @@ c0-30.327,24.673-55,54.999-55c30.327,0,55,24.673,55,55v45H110.001V85z"/></g><g><
 <form class="thread-submit-form" method="post" action="/forms/newthread/">
   <table class="make-thread-table">
     <tr>
-      <td class="table-top"><input autocomplete="off" name="post-title" placeholder="Title"></input><button class="post-button">Post</button></td>
+      <td class="table-top"><input type="text" autocomplete="off" name="title" required placeholder="Title"></input><button class="post-button">Post</button></td>
     </tr>
     <tr>
-      <td><textarea cols="80" rows="4" name="post-body" class="form-body" placeholder="What's going on?"></textarea></td>
+      <td><textarea cols="80" rows="4" name="body" class="form-body" placeholder="What's going on?"></textarea></td>
     </tr>
   </table>
   @csrf 
+  <input type="hidden" name="boardUri" value="{{ $boardConfig['uri'] }}">
 </form>
 </div>
 @endif

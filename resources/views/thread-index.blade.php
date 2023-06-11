@@ -26,7 +26,7 @@
     <div class="post-upper-data"> 
       <div class="post-title">{{ $op->post->title }}</div>
       <span class="post-date">{{ $op->post->createdAt }}</span>
-      <a href="#{{ $op->post->inBoardPseudoId }}" class="post-id">{{ $op->post->inBoardPseudoId }}</a>
+      <a href="#{{ $op->post->inBoardPseudoId }}" class="post-id">#{{ $op->post->inBoardPseudoId }}</a>
     </div>
     <div class="post-body">
     {{ $op->post->body }}  
@@ -61,7 +61,7 @@
       <div class="post-title">{{ $reply->title }}</div>
       @endif
       <span class="post-date">{{ $reply->createdAt }}</span>
-      <a href="#{{$reply->inBoardPseudoId }}" class="post-id">{{ $reply->inBoardPseudoId }}</a>
+      <a href="#{{$reply->inBoardPseudoId }}" class="post-id">#{{ $reply->inBoardPseudoId }}</a>
     </div>
     <?php /* 
     <div class="post-data">

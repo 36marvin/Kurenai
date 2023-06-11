@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\ThreadModel;
 use App\Models\ReplyModel;
@@ -50,20 +51,22 @@ class Thread extends Controller
         //     ];
         // }
 
-        $self->create([
-            'title' => $request->title,
-            'body' => $request->body,
-            'boardUri' => $request->boardUri,
-            'inBoardPseudoId' => 0,
 
-            'userId' => $userId = Auth::id(),
-            'id' => (string)Str::uuid(),
+        $title = request('title');
+        $body = request('body');
+        $boardUri = request('boardUri');
+        $userId = Auth::id();
 
-            'isLocked' => false,
-            'isInfinite' => false,
-            'isPinned' => false,
-            'isCensored' => false,
-        ]);
+        $threadConfig = [
+            'isLocked' => request('isLocked') === 'true' ? true : false,
+            'isInfinite' => request('isInfinite') === 'true' ? true : false,
+            'isPinned' => request('isPinned') === 'true' ? true : false,
+            'isCensored' => request('isCensored') === 'true' ? true : false
+        ];
+
+        $thread->newThread($title, $body, $boardUri, $userId, $threadConfig);
+
+        return redirect("/board/$boardUri");
     }
 
     function updateThread (Request $request, ThreadModel $thread) {

@@ -157,9 +157,13 @@ class BoardModel extends Model
 
     public function incrementBoardPostCount($boardUri) 
     {
-        $board = $this->where('uri', 'kurenaitest')
+        $board = $this->where('uri', $boardUri)
                       ->first();
-        $board->postCount = $board->postCount == false ? 1 : $board->postCount + 1;
-        $board->save();
+        if(isset($board->postCount)) {
+            $board->postCount = $board->postCount + 1;
+        } else {
+            $board->postCount = 1;    
+        }
+        Model::withoutTimestamps(fn () => $board->save());
     }
 }
