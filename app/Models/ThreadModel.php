@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use App\Models\PostModelParent;
 use App\Models\ReplyModel;
+use App\Models\BoardModel;
 use Database\Factories\ThreadFactory;
 
 class ThreadModel extends PostModelParent
@@ -21,12 +24,61 @@ class ThreadModel extends PostModelParent
 
     protected $keyType = 'string';
 
+    protected $fillable = [
+        'title',
+        'body',
+        'boardUri',
+        'inBoardPseudoId',
+        'userId',
+        'isLocked',
+        'isInfinite',
+        'isPinned',
+        'isCensored',
+    ];
+
+    const CREATED_AT = 'createdAt';
+
+    const UPDATED_AT = 'updatedAt';
+
     protected static function newFactory() {
         return ThreadFactory::new();
     }
 
-    function makeThread ($threadBody, $threadTitle, $isLocked, $isInfinite, $allowHtml, $userId) {
-        $threadBody = $this->formatBody($threadBody);
+    function newThread ($title, $body, $boardUri, $userId, array $boardConfig) 
+    {
+        $postCountCurrent = App::make(BoardModel::class)->getPostCount($boardUri);
+
+        $this->create([
+            'title' => $title ? $title : 'Untitled thread',
+            'body' => $body,
+            'boardUri' => $boardUri,
+            'inBoardPseudoId' => $postCountCurrent == false ? 1 : $postCountCurrent + 1,
+            'userId' => $userId,
+
+            'isLocked' => $boardConfig['isLocked'],
+            'isInfinite' => $boardConfig['isInfinite'],
+            'isPinned' => $boardConfig['isPinned'],
+            'isCensored' => $boardConfig['isCensored'],
+        ]);
+
+        App::make(BoardModel::class)->incrementBoardPostCount($boardUri);
+    }
+    /**
+     *  For the thread index.
+     */
+    public function getThreadPostAndUser($threadPseudoId, $boardUri)
+    {
+        $post = DB::table('threads')->where('inBoardPseudoId', $threadPseudoId)
+                                    ->where('boardUri', $boardUri)
+                                    ->first();
+        $user = DB::table('users')->where('id', $post->userId)
+                                  ->first();
+
+        $obj = new \stdClass;
+        $obj->post = $post;
+        $obj->user = $user;
+
+        return $obj;
     }
 
     function deleteThread ($threadID) {
@@ -43,9 +95,9 @@ class ThreadModel extends PostModelParent
      */
 
     private function getLatestNonPinnedThreads($boardUri) { 
-        return $this->where('board_uri', $boardUri)
-                    ->where('is_pinned', false)
-                    ->orderBy('created_at')
+        return $this->where('boardUri', $boardUri)
+                    ->where('isPinned', false)
+                    ->orderBy('createdAt')
                     ->get();
     }
 
@@ -55,9 +107,9 @@ class ThreadModel extends PostModelParent
      */
 
     private function getPinnedThreadsBoardIndex($boardUri) { 
-        return $this->where('board_uri', $boardUri)
-                    ->where('is_pinned', true)
-                    ->orderBy('last_pinned_updated')
+        return $this->where('boardUri', $boardUri)
+                    ->where('isPinned', true)
+                    ->orderBy('createdAt')
                     ->get();
     }
 
@@ -67,7 +119,7 @@ class ThreadModel extends PostModelParent
      */
     private function getAllThreadsBoardIndex() {
         $boardUri = request()->route()->parameter('boardUri');
-        $howManyThreadsPerPage = config('kurenai.global.boardConfig.boardIndexMaxRepliesPerThread', 10);
+        $howManyThreadsPerPage = config('kurenai.global.boardConfig.boardIndexMaxRepliesPerThread', 20);
         $pinnedThreads = $this->getPinnedThreadsBoardIndex($boardUri);
         $nonPinnedThreads = $this->getLatestNonPinnedThreads($boardUri);
         $allThreads = $pinnedThreads->concat($nonPinnedThreads);
@@ -76,8 +128,9 @@ class ThreadModel extends PostModelParent
         // need to paginate all pinned and non pinned threads together
         if($allThreads->isNotEmpty()) {
             $allThreads= $allThreads->toQuery()
-                                    ->leftJoin('users', 'users.id', '=', 'threads.user_id')
-                                    ->select('threads.id', 'users.name as poster', 'threads.title', 'threads.created_at', 'threads.is_locked', 'threads.is_infinite', 'threads.is_pinned')
+                                    ->leftJoin('users', 'users.id', '=', 'threads.userId')
+                                    ->select('threads.id', 'users.name as poster', 'threads.title', 'threads.createdAt', 'threads.isLocked', 'threads.isInfinite', 'threads.isPinned', 'threads.isCensored', 'threads.boardUri', 'threads.inBoardPseudoId')
+                                    ->orderByRaw('isPinned DESC, createdAt DESC')
                                     ->paginate($howManyThreadsPerPage)
                                     ->toArray();
         } else {
@@ -92,17 +145,18 @@ class ThreadModel extends PostModelParent
         };
 
         $howManyRepliesPerThread = isset($globalConfig) ? $globalconfig::select('replies_per_thread')->first()->threads_per_page : 5;
-        foreach($threads['data'] as $thread) {
-            $thread += ['replies' => array()];
+        foreach($threads['data'] as $index => $thread) {
             $replies = DB::table('replies')
-                         ->leftJoin('users', 'replies.user_id', '=', 'users.id')
-                         ->select('replies.reply_title', 'users.name as poster', 'replies.thread_id')
-                         ->where('replies.reply_title', '!=', null)
-                         ->where('replies.thread_id', '=', $thread['id'])
-                         ->limit($howManyRepliesPerThread)
+                         ->leftJoin('users', 'replies.userId', '=', 'users.id')
+                         ->select('replies.title', 'users.name as poster', 'replies.threadId')
+                         ->where('replies.title', '!=', null)
+                         ->where('replies.threadId', '=', $thread['id'])
+                         ->orderBy('createdAt', 'desc') // get the
+                         ->limit($howManyRepliesPerThread) // latest replies
                          ->get()
+                         ->reverse() // now revert their order (put the earliest replies at the END of collection) 
                          ->toArray();
-            $thread['replies'] = $replies;
+            $threads['data'][$index]['replies'] = $replies;
         };
         return $threads;
     }
@@ -111,5 +165,24 @@ class ThreadModel extends PostModelParent
         $threads = $this->getAllThreadsBoardIndex();
         $threads = $this->appendRepliesToThreads($threads);
         return $threads;
+    }
+
+    // Threads in different boards may have the same
+    // pseudo id, so the user of this functioon will 
+    // have to tell us what board the thread is in. 
+    public function getThreadIdByPseudoId($threadPseudoId, $boardUri)
+    {
+        $thread = DB::table('threads')->select('id')
+                                   ->where('inBoardPseudoId', $threadPseudoId)
+                                   ->where('boardUri', $boardUri)
+                                   ->first();
+        return $thread->id;
+    }
+
+    public function getBoardUriByThreadId($threadId)
+    {
+        return $this->where('id', $threadId)
+                    ->first()
+                    ->boardUri;
     }
 }

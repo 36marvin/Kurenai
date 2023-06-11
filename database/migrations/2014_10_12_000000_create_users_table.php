@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('name', 40)->unique();
             $table->string('email', 320)->unique()->nullable();
             $table->string('password', 200); // the hash may be much longer than the original password 
-            $table->foreign('badge_id')->references('id')->on('badges')->nullable(); // todo: set as foreign key
             $table->rememberToken();
             $table->timestamps();
+
+            // $table->foreign('badgeId')->references('id')->on('badges')->nullable(); we don't need this 
         });
     }
 

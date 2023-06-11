@@ -16,11 +16,11 @@ class BoardModel extends Model
 
     protected $table = 'boards';
 
-    protected $primaryKey = 'uri';
+    protected $primaryKey = 'id';
 
-    const CREATED_AT = 'created_at';
+    const CREATED_AT = 'createdAt';
 
-    const UPDATED_AT = 'updated_at';
+    const UPDATED_AT = 'updatedAt';
 
     public $incrementing = false;
 
@@ -32,9 +32,9 @@ class BoardModel extends Model
         return App::make('App\Models\ThreadModel'); 
     }
 
-    private function getUserModel () {
-        return App::make(UserModel::class); 
-    }
+    // private function getUserModel () {
+    //     return App::make(UserModel::class); 
+    // }
 
     protected static function newFactory() {
         return BoardFactory::new();
@@ -55,17 +55,17 @@ class BoardModel extends Model
 
     public function createBoard(Request $request) {
         $this->create([
-            'board_name' => $request->boardName,
-            'board_uri' => $request->boardUri,
-            'board_description' => $request->boardDescription,
-            'is_frozen' => $request->isFrozen ?? false,
-            'is_secret' => $request->isSecret ?? false,
+            'boardName' => $request->boardName,
+            'boardUri' => $request->boardUri,
+            'boardDescription' => $request->boardDescription,
+            'isFrozen' => $request->isFrozen ?? false,
+            'isSecret' => $request->isSecret ?? false,
         ]);
         $this->save();
     }
 
     public function deleteBoard($uri) {
-        $self->where('board_uri', $uri)
+        $self->where('uri', $uri)
              ->delete();
         // $this->threadModel->where('board_uri', $boardUri)
         //                   ->delete();
@@ -79,8 +79,8 @@ class BoardModel extends Model
 
      public function getBoardConfig(): array {
         $boardUri = request()->route()->parameter('boardUri');
-        $boardConfig = $this->select('board_uri', 'board_name', 'created_at', 'board_description', 'is_frozen', 'is_secret')
-                            ->where('board_uri', $boardUri)
+        $boardConfig = $this->select('uri', 'name', 'createdAt', 'description', 'isFrozen', 'isSecret')
+                            ->where('uri', $boardUri)
                             ->first()
                             ->toArray();
         return $boardConfig;
@@ -100,10 +100,13 @@ class BoardModel extends Model
         // paginate()'s argument will make Docker's php process glitch if changed to some other values (eg 20)
         // return $this->paginate(50)
                     // ->toArray();
-        if (Auth::check() && $this->getUserModel()->isGlobalStaffer(Auth::id())) {
+
+        // this is a workaround
+        $userModel = App::make(UserModel::class);
+        if (Auth::check() && $userModel->isGlobalStaffer(Auth::id())) {
             return $this->paginate(50);
         } else {
-            return $this->where('is_secret', false)
+            return $this->where('isSecret', false)
                         ->paginate(50);
         }
     }
@@ -122,10 +125,10 @@ class BoardModel extends Model
         // $staffBoards = $this->where('isGlobalStaffOnly', true)->count();
         // $nonStaffBoards = $allBoards - $staffBoards;
 
-        $secretBoards = $this->where('is_secret', true)->count();
+        $secretBoards = $this->where('isSecret', true)->count();
         $nonSecretBoards = $allBoards - $secretBoards;
 
-        $frozenBoards = $this->where('is_frozen', true)->count();
+        $frozenBoards = $this->where('isFrozen', true)->count();
         $nonFrozenBoards = $allBoards - $frozenBoards;
 
         return [
@@ -140,7 +143,27 @@ class BoardModel extends Model
     }
 
     public function checkIfBoardExists ($uri): bool {
-        return $this->where('board_uri', $uri)
+        return $this->where('uri', $uri)
              ->exists();
+    }
+
+    public function getPostCount($boardUri)
+    {
+        return $this->select('postCount')
+                    ->where('uri', $boardUri)
+                    ->first()
+                    ->postCount;
+    }
+
+    public function incrementBoardPostCount($boardUri) 
+    {
+        $board = $this->where('uri', $boardUri)
+                      ->first();
+        if(isset($board->postCount)) {
+            $board->postCount = $board->postCount + 1;
+        } else {
+            $board->postCount = 1;    
+        }
+        Model::withoutTimestamps(fn () => $board->save());
     }
 }

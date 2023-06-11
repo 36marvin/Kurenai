@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('global_badges', function (Blueprint $table) {
             $table->uuid('id')->unique();
-            $table->unsignedBigInteger('user_id'); 
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
-            $table->boolean('mod_1');
-            $table->boolean('mod_2');
-            $table->boolean('mod_3');
-            $table->boolean('ban_reviewer');
-            $table->boolean('news_editor');
-            $table->boolean('aux_manager');
-            $table->boolean('aux_manager2');
+            $table->unsignedBigInteger('userId')->unique(); 
+            $table->timestamp('createdAt');
+            $table->timestamp('updatedAt');
+            $table->boolean('mod1');
+            $table->boolean('mod2');
+            $table->boolean('mod3');
+            $table->boolean('banReviewer');
+            $table->boolean('newsEditor');
+            $table->boolean('auxManager');
+            $table->boolean('auxManager2');
             $table->boolean('admin');
             $table->boolean('dev');
         });

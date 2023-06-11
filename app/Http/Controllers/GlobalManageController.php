@@ -16,15 +16,37 @@ class GlobalManageController extends Controller
         return view('services.manage.global.config');
     }
 
-    public function setKurenaiGeneralConfig() {
-
+    // todo: make this view
+    public function serveGlobalManagementDashboardPage () {
+        return view('services.manage.global.dashboard');
     }
 
-    public function setKurenaiPostConfig() {
-
+    public function setKurenaiGeneralConfig(Request $request) {
+        $this->configManager->setGeneralConfig(
+            $request->forumName,
+            $request->forumDescription,
+            $request->forumIsOpen,
+            $request->defaultTheme
+        );
     }
 
-    public function setKurenaiBoardConfig() {
+    public function setKurenaiPostConfig(Request $request) {
+        $mediaArray = $this->configManager->makeArrayOfAllowedMediaFromRequest();
 
+        $this->configManager->setPostConfig(
+            $request->minUserAgeForThreadCreation,
+            $request->rateLimitForReplyCreation,
+            $request->rateLimitForThreadCreation,
+            $mediaArray
+        );
+    }
+
+    public function setKurenaiBoardConfig(Request $request) {
+        $this->configManager->setBoardConfig(
+            $request->boardIndexMaxRepliesPerThread,
+            $request->allowUsersToCreateBoards,
+            $request->rateLimitBoardCreation,
+            $request->minUserAgeForCreatingBoard
+        );
     }
 }   

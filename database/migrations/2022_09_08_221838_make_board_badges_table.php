@@ -14,16 +14,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('board_badges', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->unique();
-            $table->unsignedBigInteger('user_id'); 
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
-            $table->boolean('mod_1');
-            $table->boolean('mod_2');
-            $table->boolean('mod_3');
-            $table->boolean('ban_reviewer');
-            $table->boolean('aux_manager');
-            $table->boolean('board_owner');
+            $table->uuid('id')->unique();
+            $table->uuid('userId')->primary(); 
+            $table->timestamp('createdAt');
+            $table->timestamp('updatedAt');
+            $table->boolean('mod1');
+            $table->boolean('mod2');
+            $table->boolean('mod3');
+            $table->boolean('banReviewer');
+            $table->boolean('auxManager');
+            $table->boolean('boardOwner');
+
+            $table->foreign('userId')->references('id')->on('users');
+
         });
     }
 

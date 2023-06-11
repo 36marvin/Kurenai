@@ -15,20 +15,22 @@ return new class extends Migration
     {
         Schema::create('boards', function (Blueprint $table) {
             $table->uuid('id')->unique();
-            $table->string('board_name', 255);
-            $table->string('board_uri', 255)->unique();
-            $table->string('board_description', 2000);
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
-            $table->boolean('is_frozen')->default(false);
-            $table->boolean('is_secret')->default(false);
+            $table->string('name', 255);
+            $table->string('uri', 255)->unique();
+            $table->string('description', 2000);
+            $table->timestamp('createdAt');
+            $table->timestamp('updatedAt');
+            $table->boolean('isFrozen')->default(false);
+            $table->boolean('isSecret')->default(false);
+            $table->boolean('isGlobalStaffOnly')->default(false);
 
             // This is to make sure that thread and replies' public ids
-            // will always continuously increment together. Each new post
-            // of any type, in THIS board, should take this count as its 
-            // id number, and THEN add this count by 1. This count should 
-            // NEVER be subtracted.
-            $table->unsignedBigInteger('post_count')->autoIncrement()->from(1);   
+            // will always continuously increment together.
+            $table->unsignedBigInteger('postCount');   
+        });
+
+        Schema::table('threads', function (Blueprint $table) {
+            $table->foreign('boardUri')->references('uri')->on('boards');
         });
     }
 
@@ -39,6 +41,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('replies');
+        Schema::dropIfExists('threads');
         Schema::dropIfExists('boards');
     }
 };

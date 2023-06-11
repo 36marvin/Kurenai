@@ -18,7 +18,7 @@ class BoardFactory extends Factory
      */
     public function secret () {
         return $this->state(function(array $attributes) {
-            return ['is_secret' => true];
+            return ['isSecret' => true];
         });
     }
 
@@ -28,9 +28,18 @@ class BoardFactory extends Factory
      */
     public function frozen () {
         return $this->state(function (array $attributes) {
-            return ['is_frozen' => true];
+            return ['isFrozen' => true];
         });
     }
+
+    public function kurenaitest () {
+        return $this->state(function (array $attributes) {
+            return ['name' => 'kurenaitest', 
+                    'uri' => 'kurenaitest'
+            ];
+        });
+    }
+
 
     /**
      * Define the model's default state.
@@ -41,25 +50,25 @@ class BoardFactory extends Factory
     {
         return [
             // the id column is of type char(36), maybe this should be type-converted???
-            'id' => fake()->randomNumber(5, true),
+            'id' => fake()->unique()->randomNumber(5, true),
             // A 1 to 20 chars long alphanumeric string, without any instance of
             // two or more consecutive space chars, that always starts with a 
             // letter or a number.
 
             // Bug: this regex is capturing strings longer than 20 chars because of something
             // related to space chars counting.
-            'board_name' => fake()->unique()->regexify('/^[A-Za-z0-9]{1}([ ]?[A-Za-z0-9]+){0,19}$/'),
+            'name' => fake()->unique()->regexify('/^[A-Za-z0-9]{1}([ ]?[A-Za-z0-9]+){0,19}$/'),
            
             // A 1 to 10 chars long alphanumeric string without any whitespace
-            'board_uri' => fake()->unique()->regexify('/[a-zA-Z0-9]{1,10}/'),
+            'uri' => fake()->unique()->regexify('/[a-zA-Z0-9]{1,10}/'),
 
             // a 1 to 500 long string containing any chars, including newlines
-            'board_description' => fake()->unique()->regexify('/.{1,100}/s'),
-            'created_at' => fake()->unixTime(),
-            'updated_at' => fake()->unixTime(),
-            'is_frozen' => false,
-            'is_secret' => false,
-            'post_count' => 0,
+            'description' => fake()->unique()->regexify('/.{1,100}/s'),
+            'createdAt' => fake()->unixTime(),
+            'updatedAt' => fake()->unixTime(),
+            'isFrozen' => false,
+            'isSecret' => false,
+            'postCount' => 0,
         ];
     }
 }
