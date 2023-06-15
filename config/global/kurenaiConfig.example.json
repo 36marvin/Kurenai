@@ -1,13 +1,13 @@
 {
     "forumName": "Kurenai",
     "forumDescription": "All red",
-    "isOpen": "on",
+    "isOpen": false,
     "defaultTheme": "powerful-retro",
     "postConfig": {
         "allowThreadCreationForNewUsers": "+4 days",
         "rateLimit": {
             "replies": "+3 minutes",
-            "threads": "+1 hours"
+            "threads": "+2 hours"
         },
         "allowedMedia": {
             "jpeg": true,
@@ -21,7 +21,7 @@
             "ogg": false
         },
         "trustedDomains": [
-            "https://www.google.com"
+            "https:\/\/www.google.com"
         ]
     },
     "userCreationRules": {
@@ -40,9 +40,9 @@
     "boardConfig": {
         "boardIndexMaxRepliesPerThread": 10,
         "allowBoardCreation": {
-            "isEnabled": false,
+            "isEnabled": true,
             "rateLimit": "+6 hours",
-            "newUsersHaveToWait": "+2 week"
+            "newUsersHaveToWait": "+1 week"
         }
     }
 }

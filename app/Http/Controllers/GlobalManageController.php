@@ -13,7 +13,7 @@ class GlobalManageController extends Controller
         $this->configManager = new ConfigManagerService;
     }
     public function serveGlobalManagementConfigPage () {
-        return view('services.manage.global.config');
+        return view('services.manage.global.config')->with('configManager', $this->configManager);
     }
 
     // todo: make this view
@@ -21,13 +21,18 @@ class GlobalManageController extends Controller
         return view('services.manage.global.dashboard');
     }
 
-    public function setKurenaiGeneralConfig(Request $request) {
+    public function setKurenaiGeneralConfig() {
+        $isOpen = request('forumIsOpen');
+        $isOpen = isset($isOpen) ? true : false;
+
         $this->configManager->setGeneralConfig(
-            $request->forumName,
-            $request->forumDescription,
-            $request->forumIsOpen,
-            $request->defaultTheme
+            request('forumName'),
+            request('forumDescription'),
+            $isOpen,
+            request('defaultTheme')
         );
+
+        return redirect('/global/manage/config');
     }
 
     public function setKurenaiPostConfig(Request $request) {
@@ -39,14 +44,21 @@ class GlobalManageController extends Controller
             $request->rateLimitForThreadCreation,
             $mediaArray
         );
+
+        return redirect('/global/manage/config');
     }
 
-    public function setKurenaiBoardConfig(Request $request) {
+    public function setKurenaiBoardConfig() {
+        $allowCreation = request('allowUsersToCreateBoards');
+        $allowCreation = isset($isOpen) ? true : false;
+
         $this->configManager->setBoardConfig(
-            $request->boardIndexMaxRepliesPerThread,
-            $request->allowUsersToCreateBoards,
-            $request->rateLimitBoardCreation,
-            $request->minUserAgeForCreatingBoard
+            request('boardIndexMaxRepliesPerThread'),
+            $allowCreation,
+            request('rateLimitBoardCreation'),
+            request('minUserAgeForCreatingBoard')
         );
+
+        return redirect('/global/manage/config');
     }
 }   

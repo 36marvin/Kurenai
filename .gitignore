@@ -14,8 +14,11 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+#kurenai
 other/*
 !other/readme.md
 public/static/img/404/*
 !public/static/img/404/default.gif
 !public/static/img/404/readme.md
+config/global/kurenaiConfig.json

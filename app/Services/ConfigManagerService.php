@@ -11,12 +11,18 @@ class ConfigManagerService {
     private $configFromAdmin;
 
     const FILE_DIRECTORY = __DIR__ . './../../config/global/kurenaiConfig.json';
+    const EXAMPLE_FILE_DIRECTORY = __DIR__ . './../../config/global/kurenaiConfig.example.json';
 
     public function __construct () {
         $this->loadConfig();
     }
 
     private function loadConfig () {
+        // this has caused some permission conflicts with Docker
+        // if (!file_exists(self::FILE_DIRECTORY)) {
+        //     copy(self::EXAMPLE_FILE_DIRECTORY, self::FILE_DIRECTORY);
+        // }
+
         $configFile = file_get_contents(self::FILE_DIRECTORY);
         $configFile = json_decode($configFile);
         $this->config = $configFile;
@@ -33,10 +39,10 @@ class ConfigManagerService {
 
     public function setBoardConfig ($maxRepliesIndex, $isEnabled, $rateLimit, $userWait) {
         try {
-            $this->config->boardIndexMaxRepliesPerThread = $maxRepliesIndex;
-            $this->config->allowBoardCreation->isEnabled = $isEnabled;
-            $this->config->allowBoardCreation->rateLimit = $rateLimit;
-            $this->config->allowBoardCreation->newUsersHaveToWait = $userWait;
+            $this->config->boardConfig->boardIndexMaxRepliesPerThread = $maxRepliesIndex;
+            $this->config->boardConfig->allowBoardCreation->isEnabled = $isEnabled;
+            $this->config->boardConfig->allowBoardCreation->rateLimit = $rateLimit;
+            $this->config->boardConfig->allowBoardCreation->newUsersHaveToWait = $userWait;
         }
         catch (Exception $e) { // maybe this exception handling should be in a validator class
             if (config('app.debug') === false) {
@@ -63,7 +69,10 @@ class ConfigManagerService {
         $this->writeToConfigFile();
     }
 
-    public function setPostConfig ($allowThreadNewUsr, $rateLimitReplies, $rateLimitThreads, ...$mediaInputArr) {
+    /**
+     *  Todo: make this function more readable.
+     */
+    public function setPostConfig ($allowThreadNewUsr, $rateLimitReplies, $rateLimitThreads, $mediaInputArr) {
         try {
             $this->config->postConfig->allowThreadCreationForNewUsers = $allowThreadNewUsr;
             $this->config->postConfig->rateLimit->replies = $rateLimitReplies;
@@ -80,8 +89,7 @@ class ConfigManagerService {
                     }
                 }
             }    
-        }
-        catch(Exception $e) {
+        } catch(Exception $e) {
             if (config('app.debug') === false) {
                 return redirect('/error/500');
             }
@@ -109,11 +117,7 @@ class ConfigManagerService {
             // Did the user send us this media? If so,
             // this means he wants it to be allowed.
             $mediaRequest = request($media);
-            if (isset($mediaRequest)) {
-                $finalArr += [$media => true];
-            } else {
-                $finalArr += [$media => false];
-            }
+            isset($mediaRequest) ? $finalArr += [$media => true] : $finalArr += [$media => false];
         }
         return $finalArr;
     }
