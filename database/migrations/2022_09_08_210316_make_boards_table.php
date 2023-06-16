@@ -26,7 +26,7 @@ return new class extends Migration
 
             // This is to make sure that thread and replies' public ids
             // will always continuously increment together.
-            $table->unsignedBigInteger('postCount');   
+            $table->unsignedBigInteger('postCount')->default(0);   
         });
 
         Schema::table('threads', function (Blueprint $table) {

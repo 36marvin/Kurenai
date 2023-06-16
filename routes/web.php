@@ -79,6 +79,8 @@ Route::post('/forms/newthread/', [ThreadController::class, 'makeThread']);
 
 Route::post('/forms/makereply/', [ReplyController::class, 'makeReply']);
 
+Route::post('/forms/newboard/', [BoardController::class, 'createBoard']);
+
 Route::post('/forms/deleteboard/{uri}', [BoardController::class, 'deleteBoard']);
 
 Route::post('/forms/globalManage/setGeneralConfig/', [GlobalManageController::class, 'setKurenaiGeneralConfig']);

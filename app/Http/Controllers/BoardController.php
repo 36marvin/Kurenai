@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Models\BoardModel;
-use App\Models\GlobalConfigModel;
+use App\Services\ConfigManagerService;
 
 /**
  *  Let's program to the interface.
@@ -37,9 +37,9 @@ class BoardController extends Controller // implements Iboard
                                   ->with('boardConfig', $boardConfig);
     }
 
-    public function serveCreateBoardPage()
+    public function serveCreateBoardPage(ConfigManagerService $globalConfig)
     {
-        return view('services.create-board');
+        return view('services.create-board')->with('configManager', $globalConfig);
     }
 
     public function serveBoardListPage()
@@ -66,7 +66,16 @@ class BoardController extends Controller // implements Iboard
      */
 
     public function createBoard () {
-        $this->boardModel->createBoard();
+        $this->boardModel->createBoard(
+            request('name'),
+            request('uri'),
+            request('description'),
+            request('isFrozen') === 'true' ? true : false,
+            request('isSecret') === 'true' ? true : false,
+            request('isGlobalStaffOnly') === 'true' ? true : false,
+        );
+        
+        return redirect('/');
     }
 
     public function deleteBoard ($uri) {

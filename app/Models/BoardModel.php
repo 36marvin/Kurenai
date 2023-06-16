@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Facades\App;
 use Database\Factories\BoardFactory;
 use App\Models\ThreadModel;
@@ -12,7 +13,7 @@ use App\Models\User as UserModel;
 
 class BoardModel extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'boards';
 
@@ -26,7 +27,14 @@ class BoardModel extends Model
 
     protected $keyType = 'string';
 
-    // protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'description',
+        'uri',
+        'isSecret',
+        'isFrozen',
+        'isGlobalStaffOnly',
+    ];
 
     private function getThreadModel () {
         return App::make('App\Models\ThreadModel'); 
@@ -53,15 +61,15 @@ class BoardModel extends Model
         
     }
 
-    public function createBoard(Request $request) {
+    public function createBoard($name, $uri, $description, $isFrozen, $isSecret, $isGlobalStaffOnly) {
         $this->create([
-            'boardName' => $request->boardName,
-            'boardUri' => $request->boardUri,
-            'boardDescription' => $request->boardDescription,
-            'isFrozen' => $request->isFrozen ?? false,
-            'isSecret' => $request->isSecret ?? false,
+            'name' => $name,
+            'uri' => $uri,
+            'description' => $description,
+            'isFrozen' => $isFrozen,
+            'isSecret' => $isSecret,
+            'isGlobalStaffOnly' => $isGlobalStaffOnly,
         ]);
-        $this->save();
     }
 
     public function deleteBoard($uri) {
